@@ -2,6 +2,12 @@
 
 Six tasks: instance, database, four tables, small inserts, a five hundred row load, and one added column. Ten minutes total if you skip Dataflow, twenty five to thirty if you follow the handout's suggestion.
 
+Run twice now, once with region `us-east4` and once with `europe-west4`, so the region does change per run. Everything else stayed identical: instance `banking-ops-instance`, database `banking-ops-db`, the same four tables, and the same data.
+
+## Do task 5 before clicking the tables checkpoint
+
+The single "Create and Load Tables" checkpoint covers tasks 3 and 4, and on the second run it would not go green after the four tables plus the three small inserts, even though all of it had clearly worked. It cleared once the five hundred row `Customer` load had also run. So load `Customer` first and then click both checkpoints together, rather than stopping after task 4.
+
 ## Instance and database
 
 ```
