@@ -14,6 +14,14 @@ Notes from working through Google Cloud Skills Boost labs, mostly the challenge 
 2. Open the matching file in `labs/` if there is one.
 3. Copy the values off the started lab page into the commands.
 
+## Starting a session from nothing
+
+The whole method lives in `workflow.md`, so a cold start needs one line of setup:
+
+> Read this repo, follow `workflow.md` and `gotchas.md`, then here is the lab.
+
+`workflow.md` opens with the reading order and the house rules gathered in one block, so nothing else has to be explained first.
+
 ## Labs written up so far
 
 Challenge labs:

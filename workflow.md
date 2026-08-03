@@ -1,5 +1,28 @@
 # How to run a lab
 
+## Starting from cold
+
+Everything needed to run a lab from nothing is in this repo. Read in this order.
+
+1. `gotchas.md`, end to end. It is short and it is where all the lost time is.
+2. The rest of this file.
+3. `labs/<lab id>.md` if the lab has been done before.
+
+Then paste in the started lab page text, followed by the filled in values.
+
+## The house rules, gathered in one place
+
+These are repeated below in context, collected here so the whole working method can be handed over at once.
+
+- Get the filled in values before writing a single command. Region, zone, project id, and every blank the task text refers to.
+- One task at a time. Run it, click Check my progress, confirm it went green, then move on.
+- Command blocks should be paste ready, with no inline comments inside them. Explanation goes in prose around the block, not in it.
+- Never mix cleanup or delete steps into the task they would erase.
+- End a block with a command whose output proves the scored thing exists.
+- When a checkpoint fails, work in this order: read the scorer message, check the command actually ran, then look at config.
+- Call out the likely traps for a lab before starting it, not after they bite.
+- Treat the walkthrough scripts floating around for these labs as a shape to borrow, never as an answer to run. Check every literal in them against the lab text.
+
 ## Before starting
 
 Collect the filled in values off the started lab page first: region, zone, project id, and every blank the task text refers to. The public overview page shows placeholders. The started lab page shows the real values.
