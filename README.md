@@ -14,6 +14,33 @@ Notes from working through Google Cloud Skills Boost labs, mostly the challenge 
 2. Open the matching file in `labs/` if there is one.
 3. Copy the values off the started lab page into the commands.
 
+## Labs written up so far
+
+Challenge labs:
+
+- `labs/alloydb-create-and-manage-instances.md`
+- `labs/arc101-monitor-and-manage-resources.md`
+- `labs/arc109-api-gateway-challenge.md`
+- `labs/arc131-speech-to-text.md`
+- `labs/cloud-storage-three-bucket-lab.md`
+- `labs/connected-sheets-bigquery.md`
+- `labs/gsp315-store-process-and-manage-data.md`
+- `labs/gsp374-bigquery-soccer-bqml.md`
+- `labs/gsp380-bigtable.md`
+- `labs/gsp381-cloud-spanner.md`
+- `labs/gsp511-infrastructure-for-aws-professionals.md`
+- `labs/streaming-analytics-into-bigquery.md`
+
+Qwik starts and guided labs:
+
+- `labs/dataflow-qwik-start-python.md`
+- `labs/gsp081-cloud-run-functions-console.md`
+- `labs/gsp096-pubsub-qwik-start.md`
+- `labs/gsp872-api-gateway-qwik-start.md`
+- `labs/stream-processing-pubsub-to-dataflow.md`
+
+Older ones with no commands kept: `labs/earlier-labs.md`
+
 ## The values in these notes are not answers
 
 Every lab hands out fresh names when it starts. Region, zone, project id, bucket name, topic name, table name, file names, all of it changes per run. The values written here are from one old run and are only there to show the shape of the command. Read your own off the lab page.
