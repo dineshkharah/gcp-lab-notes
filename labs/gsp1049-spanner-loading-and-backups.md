@@ -52,9 +52,31 @@ gcloud spanner databases execute-sql banking-db --instance=banking-instance \
 
 Our run ended with 151483 rows.
 
-## Two things that cost time in this run
+## The checkpoints check exact row counts, so click them in order
 
-**The task 2 insert silently did not run.** It was the one command in a pasted block that produces no output of its own, so it was easy to miss. Five of the six scored rows were present and the sixth, Richard Nelson, was absent. The task 3 checkpoint appears to look at the rows from tasks 2 and 3 together, so it failed until that row existed. Check with:
+This is the important finding and it cost most of the time in this run. Each check wants the table to hold exactly what the lab has created up to that point.
+
+- Insert data through a client library wants exactly **two** rows, Richard Nelson from task 2 and Shana Underwood from task 3.
+- Insert batch data through a client library wants exactly **six**, those two plus the four from task 4.
+- Load data using Dataflow wants the full hundred and fifty thousand.
+
+So run one task, click its checkpoint, confirm it is green, then move on. If you race ahead and load the csv before claiming tasks 3 and 4, both become unpassable until you delete data to walk the table back.
+
+That is exactly what happened here. The recovery, in order, was:
+
+```
+gcloud spanner databases execute-sql banking-db --instance=banking-instance \
+  --enable-partitioned-dml \
+  --sql="DELETE FROM Customer WHERE CustomerId NOT IN (the six ids)"
+```
+
+which left six rows and passed the batch checkpoint. Then deleting just the four batch ids left two rows and passed the client library checkpoint. Then `python3 batch_insert.py` put the four back. Partitioned dml is required for the big delete because a hundred and fifty thousand rows blows past the normal mutation limit.
+
+Checkpoints latch once earned, which is what makes this recovery safe: the Dataflow checkpoint stayed green while its rows were being deleted.
+
+## The task 2 insert silently did not run
+
+It was the one command in a pasted block that produces no output of its own, so it was easy to miss. Five of the six scored rows were present and the sixth, Richard Nelson, was absent, which held up the client library checkpoint. Check with:
 
 ```
 gcloud spanner databases execute-sql banking-db --instance=banking-instance \
@@ -68,8 +90,6 @@ gcloud spanner databases execute-sql banking-db --instance=banking-instance \
 ```
 
 Six is the answer you want.
-
-**The checkpoints lag.** After the data was provably correct, all three still reported failure. Clicking them again a minute later passed all three with no other change. So re-click before diagnosing anything. A theory was forming that the checks wanted a small exact row count and that the Dataflow load had made tasks 3 and 4 unpassable, which would have meant deleting a hundred and fifty thousand rows with partitioned dml. That theory was wrong and the deletion would have been for nothing.
 
 ## Task 6, backup
 
