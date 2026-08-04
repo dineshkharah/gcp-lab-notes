@@ -48,6 +48,18 @@ This is the concrete reason for the one task at a time rule. It is not tidiness.
 
 Checkpoints latch once earned, which is what makes that kind of recovery safe. The Dataflow checkpoint stayed green while the rows it had checked were being deleted.
 
+## In a two identity lab, check which configuration is active before clicking
+
+GSP647 runs two `gcloud config configurations`, `default` for user 1 and `user2` for user 2. Its zone checkpoint failed with only `Please change the zone as instructed in the lab manual`, even though the zone had been set correctly, because `gcloud init` leaves the configuration it just created active and the scorer read that one instead.
+
+Nothing had to be fixed. Activating `default` and clicking again passed.
+
+```
+gcloud config configurations list
+```
+
+That prints every configuration with its account, project and zone in one table. Run it before claiming anything in a lab with more than one principal. The other half of the same problem is running a scored command as the wrong identity, which fails in a way that looks like a permissions bug.
+
 ## Read the scorer message
 
 The score alone says a checkpoint failed. The message under it says why. One Bigtable checkpoint sat at ten out of twenty with the real reason only in the popup: it wanted a multi region bucket named after the project id, while the bucket had been created regional.
