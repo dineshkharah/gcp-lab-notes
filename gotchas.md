@@ -19,6 +19,17 @@ gcloud beta services identity create --service=eventarc.googleapis.com --project
 
 An agent created this way does not pick up its own service agent role, so also grant `roles/eventarc.serviceAgent` to the eventarc one. Then wait about two minutes before deploying.
 
+Same pattern turns up whenever a lab says an agent is "created automatically". GSP526 says exactly that about the Privileged Access Manager agent and then asks you to grant it a role. Read the address back out of the create command instead of composing it by hand:
+
+```
+export PAM_SA=$(gcloud beta services identity create \
+  --service=privilegedaccessmanager.googleapis.com \
+  --project=$PROJECT_ID --format='value(email)')
+echo $PAM_SA
+```
+
+A variable that came from the api cannot be a typo. GSP499 is the one exception found so far: its IAP agent does already exist, and only the `roles/run.invoker` binding is missing.
+
 ## Always prove an iam binding landed
 
 Exit status is not enough. Check the policy:
