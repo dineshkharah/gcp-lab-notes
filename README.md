@@ -48,6 +48,7 @@ Qwik starts and guided labs:
 - `labs/gsp1050-spanner-schemas-and-query-plans.md`
 - `labs/gsp1316-ncc-site-to-site-ha-vpn.md`
 - `labs/gsp1317-ncc-vpc-to-vpc-and-psc.md`
+- `labs/gsp1318-ncc-hybrid-connectivity.md`
 - `labs/gsp081-cloud-run-functions-console.md`
 - `labs/gsp096-pubsub-qwik-start.md`
 - `labs/gsp872-api-gateway-qwik-start.md`
