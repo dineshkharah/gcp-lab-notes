@@ -45,6 +45,7 @@ Qwik starts and guided labs:
 - `labs/gsp1048-spanner-database-fundamentals.md`
 - `labs/gsp1049-spanner-loading-and-backups.md`
 - `labs/gsp1050-spanner-schemas-and-query-plans.md`
+- `labs/gsp1316-ncc-site-to-site-ha-vpn.md`
 - `labs/gsp081-cloud-run-functions-console.md`
 - `labs/gsp096-pubsub-qwik-start.md`
 - `labs/gsp872-api-gateway-qwik-start.md`
