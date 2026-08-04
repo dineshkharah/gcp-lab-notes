@@ -50,6 +50,7 @@ Qwik starts and guided labs:
 - `labs/gsp1317-ncc-vpc-to-vpc-and-psc.md`
 - `labs/gsp1318-ncc-hybrid-connectivity.md`
 - `labs/gsp190-iam-custom-roles.md`
+- `labs/gsp499-iap-user-authentication.md`
 - `labs/gsp647-iam-permissions-with-gcloud.md`
 - `labs/gsp081-cloud-run-functions-console.md`
 - `labs/gsp096-pubsub-qwik-start.md`

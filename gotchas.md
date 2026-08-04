@@ -99,6 +99,12 @@ gcloud run services update-traffic FUNCTION_NAME --region=$REGION --to-latest
 
 An object uploaded before the trigger existed will never be processed. Upload again after the function is live.
 
+## Labs get rewritten onto different products, so check the manual date
+
+GSP499 used to be an App Engine lab with `gcloud app deploy`, a permanent App Engine region, and an OAuth consent screen that had to be configured before IAP would turn on. The current version is Cloud Run, with none of those three things in it. Every warning carried over from the old version was wrong, and two of them were warnings about irreversible mistakes that no longer exist.
+
+Every lab page prints **Manual Last Updated** at the bottom. Read it against the notes here. Where they disagree the lab text wins, including against this file.
+
 ## Community scripts are a starting point, not an answer
 
 The scripts floating around for these labs are usually built for a different variant of the same lab. Things found wrong in them: source bucket paths from an older lab id, a randomised api id where the lab requires a fixed one, an alert policy display name that does not match, a filename typo that makes the script exit immediately, an entire BigQuery export section for a lab that never mentions BigQuery, and iam grants aimed at the wrong service account. Read them, take the shape, check every literal against the lab text.
