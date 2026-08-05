@@ -71,6 +71,14 @@ gcloud config configurations list
 
 That prints every configuration with its account, project and zone in one table. Run it before claiming anything in a lab with more than one principal. The other half of the same problem is running a scored command as the wrong identity, which fails in a way that looks like a permissions bug.
 
+## Refresh the lab page before rebuilding anything
+
+On ARC130 the api key checkpoint failed with `Please create an API key` while the key existed, was enabled, and was visible in the console. Nothing was wrong. After finishing the two later tasks and **refreshing the lab page**, that checkpoint and one other both went green on their own.
+
+Two lessons. Clicking the same button again is not a retry, it usually returns the same cached verdict, so change something first: refresh the page, or produce a new signal the scorer can see. And a failing checkpoint is not proof the work is wrong.
+
+The other half of that run: the Google Docs and Apps Script checkpoint also scored **without a document ever being created**, off the api traffic the earlier tasks had already generated. Worth clicking every checkpoint after a refresh before hand building the slowest task in a lab.
+
 ## Read the scorer message
 
 The score alone says a checkpoint failed. The message under it says why. One Bigtable checkpoint sat at ten out of twenty with the real reason only in the popup: it wanted a multi region bucket named after the project id, while the bucket had been created regional.
