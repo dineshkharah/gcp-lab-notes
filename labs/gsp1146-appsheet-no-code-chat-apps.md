@@ -20,6 +20,8 @@ The scorers appear to check the app exists and the Tickets table holds the expec
 
 This is one run against a manual dated March 2026. If the checkpoints do not go green, the full path is below.
 
+The challenge lab at the end of this badge, ARC126, replays tasks 1 and 2 of this lab with slightly different literals. See `arc126-apps-script-and-appsheet-challenge.md`.
+
 ## The full path, if needed
 
 **Task 1.** Copy app from the template link. AppSheet writes the backing spreadsheet to `/appsheet/data/ATMMaintenanceTracker-nnnnnnn` in My Drive. Then Chat apps in the left nav, Create, Next on the Enable card to auto configure. **Do not reload the page while it configures**, it takes a few minutes.

@@ -14,6 +14,8 @@ So the minimum for a green lab is:
 
 The rest is worth doing to see the bot work, but nothing depends on it.
 
+The challenge lab at the end of this badge, ARC126, replays this whole lab as `Helper Bot` and does score the publishing half. See `arc126-apps-script-and-appsheet-challenge.md`.
+
 ## Task 1
 
 Sign in to the Google Cloud console **first**, then follow the Apps Script link from the lab. That order matters: the link inherits the signed in session, and hitting it first can land you on the wrong account.
