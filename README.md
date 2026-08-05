@@ -49,6 +49,7 @@ Challenge labs:
 Qwik starts and guided labs:
 
 - `labs/dataflow-qwik-start-python.md`
+- `labs/gsp250-google-chat-bots-apps-script.md`
 - `labs/gsp1048-spanner-database-fundamentals.md`
 - `labs/gsp1146-appsheet-no-code-chat-apps.md`
 - `labs/gsp1049-spanner-loading-and-backups.md`
