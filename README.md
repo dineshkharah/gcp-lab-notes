@@ -53,6 +53,7 @@ Qwik starts and guided labs:
 - `labs/gsp235-apps-script-sheets-maps-gmail.md`
 - `labs/gsp250-google-chat-bots-apps-script.md`
 - `labs/gsp1048-spanner-database-fundamentals.md`
+- `labs/gsp1131-artifact-registry-qwik-start.md`
 - `labs/gsp1146-appsheet-no-code-chat-apps.md`
 - `labs/gsp1049-spanner-loading-and-backups.md`
 - `labs/gsp1050-spanner-schemas-and-query-plans.md`
