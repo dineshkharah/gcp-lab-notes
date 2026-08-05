@@ -120,6 +120,8 @@ Every lab page prints **Manual Last Updated** at the bottom. Read it against the
 
 The scripts floating around for these labs are usually built for a different variant of the same lab. Things found wrong in them: source bucket paths from an older lab id, a randomised api id where the lab requires a fixed one, an alert policy display name that does not match, a filename typo that makes the script exit immediately, an entire BigQuery export section for a lab that never mentions BigQuery, and iam grants aimed at the wrong service account. Read them, take the shape, check every literal against the lab text.
 
+**Read the end of the script before running the start of it.** The ARC122 one finishes with an interactive `Would you like to cleanup resources? (y/N)` that deletes the api key and runs `gsutil -m rm -r` over the whole bucket, including the two response files the checkpoints score. A stray keystroke at that prompt undoes the lab. Scripts also tend to `exit 1` on failures that are not fatal, like an object acl call that a uniform access bucket refuses, which stops the run before any scored work happens.
+
 ## Skip Dataflow for small bulk loads
 
 When a lab says to use Dataflow or a client library to load a few hundred rows, build one multi row insert instead. Five hundred rows of csv turned into a single `INSERT ... VALUES (...),(...)` finished in seconds against Spanner, where the bucket plus manifest plus template route was about twenty five minutes. Five hundred rows across three columns is fifteen hundred mutations, far under the per commit limit.
