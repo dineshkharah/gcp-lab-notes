@@ -68,6 +68,22 @@ Two habits that prevent it:
 
 The score pattern is diagnostic too: on ARC114 the two tasks that used the key both sat at 10 of 25 while the two that did not were full marks. When a subset of checkpoints fails and they share one input, suspect the input.
 
+## A loop over a failed command substitution deletes nothing, silently
+
+On GSP322 this line looked fine and is not valid:
+
+```
+gcloud compute firewall-rules list --filter="network:acme-vpc AND sourceRanges:0.0.0.0/0"
+```
+
+```
+ERROR: Invalid value for field 'filter'. Invalid list filter expression.
+```
+
+Compute's list api accepts only a restricted filter grammar, and gcloud translated the compound expression into something it rejects. The `for` loop built on it iterated over an empty list, so the overly permissive rule was never deleted. Two error lines scrolled past inside a wall of successful output and the score came back 90 of 100 with no obvious cause.
+
+For a handful of resources, **list them, read them, act by name.** If a destructive loop matters, echo the names first and confirm the list is not empty before the loop runs.
+
 ## Some checkpoints want an exact row count, so claim them in order
 
 On GSP1049 each of the three data checkpoints wanted the table to hold exactly what the lab had created up to that point: two rows, then six, then a hundred and fifty thousand. Loading the csv before claiming the first two made both of them unpassable, and the only way back was deleting rows with partitioned dml, claiming each checkpoint at the right count, then reloading.

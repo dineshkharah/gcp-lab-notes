@@ -36,6 +36,7 @@ Challenge labs:
 - `labs/cloud-storage-three-bucket-lab.md`
 - `labs/connected-sheets-bigquery.md`
 - `labs/gsp315-store-process-and-manage-data.md`
+- `labs/gsp322-build-a-secure-network-challenge.md`
 - `labs/gsp374-bigquery-soccer-bqml.md`
 - `labs/gsp380-bigtable.md`
 - `labs/gsp381-cloud-spanner.md`
