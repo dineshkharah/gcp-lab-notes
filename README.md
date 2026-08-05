@@ -7,6 +7,7 @@ Notes from working through Google Cloud Skills Boost labs, mostly the challenge 
 - `workflow.md` is the process. How to run a lab from start to finish, what to line up before touching a command, what to check after each task.
 - `gotchas.md` is the list of traps that turn up across many labs. Read this one first. Almost all the time lost in these labs came from a handful of repeating causes and they are all in there.
 - `labs/` has one file per lab, named by its lab id. Each file lists the tasks, the commands that actually worked, and what went wrong.
+- `labs/assets/` holds files a lab needs uploaded or imported, referenced from the lab file that uses them.
 
 ## How to use it before a lab
 
@@ -49,6 +50,7 @@ Qwik starts and guided labs:
 
 - `labs/dataflow-qwik-start-python.md`
 - `labs/gsp1048-spanner-database-fundamentals.md`
+- `labs/gsp1146-appsheet-no-code-chat-apps.md`
 - `labs/gsp1049-spanner-loading-and-backups.md`
 - `labs/gsp1050-spanner-schemas-and-query-plans.md`
 - `labs/gsp1316-ncc-site-to-site-ha-vpn.md`
