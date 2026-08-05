@@ -51,6 +51,23 @@ Qwiklabs project ids end in twelve hex characters. The credentials panel clips t
 
 Four separate labs had a checkpoint stuck at zero purely because its command never executed, while everything around it worked. `gcloud scheduler jobs run`, `gcloud storage buckets create`, and a Spanner `INSERT` were the ones that vanished. Before investigating config, search the terminal output for the command itself. The commands most likely to be lost are the ones that print little or nothing of their own, since there is no gap in the output to notice.
 
+## An interactive prompt in a pasted block eats the next line
+
+The mirror image of the problem above. On ARC114 the community script contained `read -p "Enter your API Key: " API_KEY_INPUT`, and pasting the block meant `read` consumed the **next line of the script** as its answer. `API_KEY` became the literal string `# Get API Key`, the real key was then handed to bash as a command, and both curls sent a garbage key into files that were written anyway, containing a 403.
+
+The tell is in the terminal, on the prompt line itself:
+
+```
+Enter your Google Cloud API Key: # Get API Key
+```
+
+Two habits that prevent it:
+
+- Paste any `export VAR=...` **on its own line**, then verify with brackets around it: `echo "[$API_KEY]"`. Brackets so an empty or whitespace value is visible rather than looking like a blank line.
+- Scan a script for `read`, `gunzip` on an existing file, `gcloud ... delete`, and anything else that prompts, and split the paste there.
+
+The score pattern is diagnostic too: on ARC114 the two tasks that used the key both sat at 10 of 25 while the two that did not were full marks. When a subset of checkpoints fails and they share one input, suspect the input.
+
 ## Some checkpoints want an exact row count, so claim them in order
 
 On GSP1049 each of the three data checkpoints wanted the table to hold exactly what the lab had created up to that point: two rows, then six, then a hundred and fifty thousand. Loading the csv before claiming the first two made both of them unpassable, and the only way back was deleting rows with partitioned dml, claiming each checkpoint at the right count, then reloading.

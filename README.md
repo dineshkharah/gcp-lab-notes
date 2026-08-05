@@ -29,6 +29,7 @@ Challenge labs:
 - `labs/alloydb-create-and-manage-instances.md`
 - `labs/arc101-monitor-and-manage-resources.md`
 - `labs/arc109-api-gateway-challenge.md`
+- `labs/arc114-speech-and-language-challenge.md`
 - `labs/arc122-vision-api-challenge.md`
 - `labs/arc130-natural-language-challenge.md`
 - `labs/arc131-speech-to-text.md`
