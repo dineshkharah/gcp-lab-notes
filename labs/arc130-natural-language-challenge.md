@@ -22,6 +22,28 @@ Practical reading: **do tasks 3 and 4 first, then refresh the page and click tas
 
 This is not a guarantee, and the manual date on the page is June 2026, so it may be tightened later. But it cost us nothing to check and saved the slowest part of the lab.
 
+## Second run: the api key is not required for tasks 3 and 4
+
+Confirmed on a second attempt. A **bearer token** works just as well as an api key on the two vm tasks:
+
+```
+curl -s -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $(gcloud auth print-access-token)" \
+  "https://language.googleapis.com/v1/documents:analyzeSyntax" \
+  -d @analyze-request.json > analyze-response.txt
+
+curl -s -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $(gcloud auth print-access-token)" \
+  "https://language.googleapis.com/v1/documents:analyzeEntities" \
+  -d @multi-nl-request.json > multi-response.txt
+```
+
+Both checkpoints scored. So although the task text says to pass "the API key environment variable you saved earlier", the scorers only care that the calls happened and the response files exist.
+
+This corrects an earlier reading of the community script for this lab. The script authenticates with `gcloud auth print-access-token` and that is **fine**. What went wrong on the first run was unrelated: its `read` prompt swallowed a line of the paste, so `API_KEY` became script text and the key based curls sent a garbage key, which is what produced 10 of 25 on both tasks. See `arc114-speech-and-language-challenge.md` for that failure in detail.
+
+The bearer token form is arguably the better one to use here, since it has no key to mistype and no org policy to fight.
+
 ## The api key, and an org policy that bites
 
 ```
@@ -108,11 +130,13 @@ Our run: `analyzeSyntax` for task 3, `analyzeEntities` for task 4, both green.
 
 ## The community script for this lab
 
-It only covers tasks 3 and 4, and it does them wrong for the scoring:
+It only covers tasks 3 and 4, and those two it gets right, including the endpoints: task 3 to `analyzeSyntax`, task 4 to `analyzeEntities`.
 
-- **It never creates an api key.** It authenticates with `gcloud auth print-access-token` instead, so task 1 gets nothing, and the lab explicitly says tasks 3 and 4 should use the key from task 1.
-- It runs in **Cloud Shell**, while the lab says both tasks require ssh on `lab-vm`. This lab carries the "Do not deviate from instructions" warning.
+What it does not cover:
+
+- **It never creates an api key**, so task 1 gets nothing. Its bearer token is fine for tasks 3 and 4, confirmed on the second run, but task 1 still needs a key to exist.
 - It never touches task 2.
 - It does not enable `language.googleapis.com`.
+- It runs in **Cloud Shell**, while the lab says both tasks require ssh on `lab-vm`. Both scored anyway, but this lab carries the "Do not deviate from instructions" warning.
 
-The one thing it gets right and worth confirming against: task 3 to `analyzeSyntax`, task 4 to `analyzeEntities`.
+And the one that actually bites: **the `read` prompt at the top eats the next line of the paste.** That is what cost the first run, not any of the above.
