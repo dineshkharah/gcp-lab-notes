@@ -53,6 +53,7 @@ Qwik starts and guided labs:
 - `labs/dataflow-qwik-start-python.md`
 - `labs/gsp235-apps-script-sheets-maps-gmail.md`
 - `labs/gsp250-google-chat-bots-apps-script.md`
+- `labs/gsp097-natural-language-api-qwik-start.md`
 - `labs/gsp1048-spanner-database-fundamentals.md`
 - `labs/gsp1079-continuous-delivery-cloud-deploy.md`
 - `labs/gsp1131-artifact-registry-qwik-start.md`
