@@ -2,6 +2,8 @@
 
 Nine tasks, eight checkpoints. Twenty minutes stated, more like forty in practice. Three GKE clusters and a Skaffold build dominate the clock.
 
+The challenge lab for this badge, GSP393, is this lab with two clusters plus a v2 rebuild and a rollback. See `gsp393-cicd-pipelines-challenge.md`.
+
 ## The one thing that decides whether this goes smoothly
 
 **Do not touch the clusters until all three read `RUNNING`.**
