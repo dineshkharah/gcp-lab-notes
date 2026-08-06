@@ -67,6 +67,7 @@ Qwik starts and guided labs:
 - `labs/gsp190-iam-custom-roles.md`
 - `labs/gsp499-iap-user-authentication.md`
 - `labs/gsp647-iam-permissions-with-gcloud.md`
+- `labs/gsp038-entity-and-sentiment-analysis.md`
 - `labs/gsp081-cloud-run-functions-console.md`
 - `labs/gsp096-pubsub-qwik-start.md`
 - `labs/gsp872-api-gateway-qwik-start.md`
