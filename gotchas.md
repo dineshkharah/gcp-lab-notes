@@ -68,6 +68,21 @@ Two habits that prevent it:
 
 The score pattern is diagnostic too: on ARC114 the two tasks that used the key both sat at 10 of 25 while the two that did not were full marks. When a subset of checkpoints fails and they share one input, suspect the input.
 
+## A multi line command substitution does not survive a paste
+
+A wait loop split across lines looks fine and is not:
+
+```
+until [ "$(gcloud beta deploy rollouts list --delivery-pipeline web-app \
+  --release web-app-001 --filter='targetId=test' --format='value(state)' | head -n 1)" = "SUCCEEDED" ]; do
+```
+
+Pasted into Cloud Shell it gives `-bash: command substitution: unexpected EOF while looking for matching ')'`, the comparison evaluates against an empty string, and the loop **exits immediately printing its success message**. On GSP1079 it echoed `staging rollout SUCCEEDED` while that rollout was in `FAILED`.
+
+Keep an `until` or `while` on one physical line, or drop the loop and re-run the status command by hand. For a handful of checks, by hand is better and you actually read the output.
+
+Related: an async resource is not a ready resource. The same lab creates three GKE clusters with `--async`, and calling `get-credentials` before they are `RUNNING` silently leaves one cluster with no kubectl context, which surfaces much later as a failed deployment with no mention of the real cause.
+
 ## A loop over a failed command substitution deletes nothing, silently
 
 On GSP322 this line looked fine and is not valid:
