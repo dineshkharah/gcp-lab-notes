@@ -1,6 +1,6 @@
 # ARC130, Analyze Sentiment with Natural Language API challenge lab
 
-The guided lab in this badge is `gsp097-natural-language-api-qwik-start.md`, which authenticates completely differently: a service account json rather than an api key.
+Guided labs in this badge: `gsp097-natural-language-api-qwik-start.md`, which authenticates completely differently with a service account json rather than an api key, and `gsp126-natural-language-api-from-google-docs.md`, which is the source of this lab's task 2.
 
 Four tasks, four checkpoints at 25 each. Ten minutes stated. Ours finished in about fifteen, and **two of the four checkpoints scored without the work they describe**, which is the main thing to know about this lab.
 

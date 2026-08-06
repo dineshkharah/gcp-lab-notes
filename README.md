@@ -55,6 +55,7 @@ Qwik starts and guided labs:
 - `labs/gsp250-google-chat-bots-apps-script.md`
 - `labs/gsp097-natural-language-api-qwik-start.md`
 - `labs/gsp1048-spanner-database-fundamentals.md`
+- `labs/gsp126-natural-language-api-from-google-docs.md`
 - `labs/gsp1079-continuous-delivery-cloud-deploy.md`
 - `labs/gsp1131-artifact-registry-qwik-start.md`
 - `labs/gsp1146-appsheet-no-code-chat-apps.md`
