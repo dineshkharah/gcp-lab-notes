@@ -68,6 +68,18 @@ Two habits that prevent it:
 
 The score pattern is diagnostic too: on ARC114 the two tasks that used the key both sat at 10 of 25 while the two that did not were full marks. When a subset of checkpoints fails and they share one input, suspect the input.
 
+## Always give kubectl rollout status a timeout
+
+On GSP053 the lab says `kubectl rollout status` returns immediately after a `rollout pause`. It does not. It blocks forever on `Waiting for deployment ... 1 out of 3 new replicas have been updated`.
+
+That matters more than it sounds, because the command was in the middle of a pasted block. Ctrl+C interrupted the status but the shell kept executing the remaining buffered lines, so `resume` and `undo` raced each other and the deployment finished on the wrong version with no clear record of what had run.
+
+```
+kubectl rollout status deployment/NAME --timeout=180s
+```
+
+The same applies to anything that can block indefinitely inside a paste. If it can wait forever, bound it, or run it on its own line.
+
 ## A multi line command substitution does not survive a paste
 
 A wait loop split across lines looks fine and is not:
