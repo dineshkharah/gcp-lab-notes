@@ -57,6 +57,7 @@ Qwik starts and guided labs:
 - `labs/gsp1048-spanner-database-fundamentals.md`
 - `labs/gsp126-natural-language-api-from-google-docs.md`
 - `labs/gsp1079-continuous-delivery-cloud-deploy.md`
+- `labs/gsp1108-monitor-apache-with-ops-agent.md`
 - `labs/gsp1131-artifact-registry-qwik-start.md`
 - `labs/gsp1146-appsheet-no-code-chat-apps.md`
 - `labs/gsp1049-spanner-loading-and-backups.md`
