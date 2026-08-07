@@ -23,7 +23,7 @@ sudo apt-get update
 sudo apt-get install apache2 php7.0
 ```
 
-`php7.0` **does not exist on Debian 12**. The lab notes this in passing; expect the command to fail and use:
+`php7.0` **does not exist on Debian 12**. Same trap in `gsp089-cloud-monitoring-qwik-start.md`, where the suggested fallback of `php5` does not exist either. The lab notes this in passing; expect the command to fail and use:
 
 ```
 sudo apt-get install apache2 php

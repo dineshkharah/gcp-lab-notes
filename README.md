@@ -70,6 +70,7 @@ Qwik starts and guided labs:
 - `labs/gsp647-iam-permissions-with-gcloud.md`
 - `labs/gsp038-entity-and-sentiment-analysis.md`
 - `labs/gsp081-cloud-run-functions-console.md`
+- `labs/gsp089-cloud-monitoring-qwik-start.md`
 - `labs/gsp092-monitoring-and-logging-for-cloud-run-functions.md`
 - `labs/gsp096-pubsub-qwik-start.md`
 - `labs/gsp872-api-gateway-qwik-start.md`
