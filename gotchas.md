@@ -126,6 +126,8 @@ This is the concrete reason for the one task at a time rule. It is not tidiness.
 
 Checkpoints latch once earned, which is what makes that kind of recovery safe. The Dataflow checkpoint stayed green while the rows it had checked were being deleted.
 
+The blunter version of this is a lab whose **last task deletes what the earlier checkpoints score**. GSP1143 and GSP1144 both build a lake, a zone and an asset, score one checkpoint on each, and then have you tear all three down for a fourth. Scripting the whole lab and clicking afterwards leaves three checkpoints with nothing to find. Whenever a lab's final task is cleanup, claim everything before running it.
+
 ## In a two identity lab, check which configuration is active before clicking
 
 GSP647 runs two `gcloud config configurations`, `default` for user 1 and `user2` for user 2. Its zone checkpoint failed with only `Please change the zone as instructed in the lab manual`, even though the zone had been set correctly, because `gcloud init` leaves the configuration it just created active and the scorer read that one instead.
@@ -192,6 +194,8 @@ An object uploaded before the trigger existed will never be processed. Upload ag
 GSP499 used to be an App Engine lab with `gcloud app deploy`, a permanent App Engine region, and an OAuth consent screen that had to be configured before IAP would turn on. The current version is Cloud Run, with none of those three things in it. Every warning carried over from the old version was wrong, and two of them were warnings about irreversible mistakes that no longer exist.
 
 Every lab page prints **Manual Last Updated** at the bottom. Read it against the notes here. Where they disagree the lab text wins, including against this file.
+
+A rename does not have to reach the whole product. Knowledge Catalog, in GSP1143, is called that only in the console; the api is still `dataplex.googleapis.com`, the commands are still `gcloud dataplex`, and the permission in its error messages is still `dataplex.lakes.create`. So the console name and the command name disagree and neither is a typo. When a lab name and a command prefix do not match, check whether the product was renamed before assuming the lab is stale.
 
 The date is also worth reading across labs that share tasks. GSP1041 and GSP1042 have three identical tasks, and their manuals are two months apart, so the same step is described with different menu labels in each. And the lag cuts the other way too: GSP1042 still calls the product Data Studio, renamed Looker Studio in 2022, which means searching the lab text for the name in the console finds nothing.
 
