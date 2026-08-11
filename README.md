@@ -58,6 +58,7 @@ Qwik starts and guided labs:
 - `labs/gsp1026-managed-service-for-prometheus.md`
 - `labs/gsp1048-spanner-database-fundamentals.md`
 - `labs/gsp126-natural-language-api-from-google-docs.md`
+- `labs/gsp1077-gke-pipeline-using-cloud-build.md`
 - `labs/gsp1079-continuous-delivery-cloud-deploy.md`
 - `labs/gsp1108-monitor-apache-with-ops-agent.md`
 - `labs/gsp1131-artifact-registry-qwik-start.md`

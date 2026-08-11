@@ -68,6 +68,13 @@ Two habits that prevent it:
 
 The score pattern is diagnostic too: on ARC114 the two tasks that used the key both sat at 10 of 25 while the two that did not were full marks. When a subset of checkpoints fails and they share one input, suspect the input.
 
+An editor counts as a prompt. `git pull` and `git merge` open one whenever the merge is not a fast forward, and `ssh-keygen` asks before overwriting an existing key file even when `-N ''` and `-f` have suppressed its other two questions. Both stop a pasted block dead. Cheap insurance at the top of any lab that uses git:
+
+```
+git config --global core.editor true
+export GIT_MERGE_AUTOEDIT=no
+```
+
 ## Always give kubectl rollout status a timeout
 
 On GSP053 the lab says `kubectl rollout status` returns immediately after a `rollout pause`. It does not. It blocks forever on `Waiting for deployment ... 1 out of 3 new replicas have been updated`.
