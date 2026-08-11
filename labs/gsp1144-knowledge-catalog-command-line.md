@@ -88,3 +88,4 @@ That no movement property is the reason the whole hierarchy can be built and tor
 
 - `gsp1143-knowledge-catalog-console.md`, the console twin, with the full field to flag mapping and the two entries that are easy to get wrong.
 - `gsp1145-aspects-knowledge-catalog-assets.md`, the third in the set, where the hierarchy is only task 1 and the content is aspects.
+- `arc117-organize-govern-data-knowledge-catalog-challenge.md`, the challenge lab that closes the badge.

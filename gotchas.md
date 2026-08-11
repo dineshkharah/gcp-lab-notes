@@ -207,6 +207,14 @@ The scripts floating around for these labs are usually built for a different var
 
 **Read the end of the script before running the start of it.** The ARC122 one finishes with an interactive `Would you like to cleanup resources? (y/N)` that deletes the api key and runs `gsutil -m rm -r` over the whole bucket, including the two response files the checkpoints score. A stray keystroke at that prompt undoes the lab. Scripts also tend to `exit 1` on failures that are not fatal, like an object acl call that a uniform access bucket refuses, which stops the run before any scored work happens.
 
+## A challenge lab changes the values the guided lab taught you
+
+These notes exist to make the guided lab pay for the challenge lab, so it is worth saying where that goes wrong. A challenge lab reuses the same products with the details deliberately altered, and the habit is what trips you rather than the knowledge.
+
+ARC117 against GSP1145 is a clean example. The enum values are `Y` and `N` instead of `Yes` and `No`. The aspect attaches to a **zone** instead of to a table and its columns. And GSP1145's search step sets `Filters > Systems > BigQuery`, which carried into ARC117 returns no results at all, because a zone entry's system is Dataplex. Nothing was broken and nothing needed rebuilding; the filter needed clearing.
+
+So read a lab file here for the mechanism and the commands, and read the challenge text for every literal: names, regions, enum values, and **what the thing is being attached to**.
+
 ## Skip Dataflow for small bulk loads
 
 When a lab says to use Dataflow or a client library to load a few hundred rows, build one multi row insert instead. Five hundred rows of csv turned into a single `INSERT ... VALUES (...),(...)` finished in seconds against Spanner, where the bucket plus manifest plus template route was about twenty five minutes. Five hundred rows across three columns is fifteen hundred mutations, far under the per commit limit.

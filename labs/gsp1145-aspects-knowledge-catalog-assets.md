@@ -117,3 +117,4 @@ No checkpoint of its own beyond what task 3 already scored, and nothing is creat
 
 - `gsp1143-knowledge-catalog-console.md` for the console to `gcloud` field mapping used in the block above.
 - `gsp1144-knowledge-catalog-command-line.md` for the same hierarchy end to end from the CLI, including its teardown.
+- `arc117-organize-govern-data-knowledge-catalog-challenge.md`, the challenge lab, where the aspect goes on a **zone** rather than a table and its columns, so this lab's BigQuery search filter has to be cleared.
