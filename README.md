@@ -58,6 +58,7 @@ Qwik starts and guided labs:
 - `labs/gsp250-google-chat-bots-apps-script.md`
 - `labs/gsp097-natural-language-api-qwik-start.md`
 - `labs/gsp1026-managed-service-for-prometheus.md`
+- `labs/gsp1061-use-charts-in-google-sheets.md`
 - `labs/gsp1041-bigquery-authorized-views-data-sharing.md`
 - `labs/gsp1042-analytics-as-a-service-data-sharing.md`
 - `labs/gsp1043-consuming-datasets-data-twin.md`
