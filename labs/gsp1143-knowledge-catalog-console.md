@@ -102,3 +102,4 @@ Same family as the service agent propagation problem in `gotchas.md`, and the sa
 ## Related files
 
 - `gsp1144-knowledge-catalog-command-line.md` is this lab through the CLI, with a curated zone and a BigQuery dataset instead of a raw zone and a bucket. Same four checkpoints and the same delete last ordering trap, and it runs in five minutes.
+- `gsp1145-aspects-knowledge-catalog-assets.md` builds the same hierarchy again in its task 1 and then does the part that actually uses it, attaching aspects to a table and its columns.

@@ -148,6 +148,8 @@ On ARC130 the api key checkpoint failed with `Please create an API key` while th
 
 Two lessons. Clicking the same button again is not a retry, it usually returns the same cached verdict, so change something first: refresh the page, or produce a new signal the scorer can see. And a failing checkpoint is not proof the work is wrong.
 
+Sometimes the lab admits this itself. GSP1145 warns twice that its aspect checkpoints take a few minutes to come good. Where a lab says that, a red checkpoint is the expected **first** result and waiting is the whole fix. Read the note before rebuilding the thing it is about.
+
 The other half of that run: the Google Docs and Apps Script checkpoint also scored **without a document ever being created**, off the api traffic the earlier tasks had already generated. Worth clicking every checkpoint after a refresh before hand building the slowest task in a lab.
 
 ## Read the scorer message
