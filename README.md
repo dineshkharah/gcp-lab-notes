@@ -67,6 +67,7 @@ Qwik starts and guided labs:
 - `labs/gsp1108-monitor-apache-with-ops-agent.md`
 - `labs/gsp1131-artifact-registry-qwik-start.md`
 - `labs/gsp1143-knowledge-catalog-console.md`
+- `labs/gsp1144-knowledge-catalog-command-line.md`
 - `labs/gsp1146-appsheet-no-code-chat-apps.md`
 - `labs/gsp1049-spanner-loading-and-backups.md`
 - `labs/gsp1050-spanner-schemas-and-query-plans.md`

@@ -99,24 +99,6 @@ for i in 1 2 3 4 5; do gcloud dataplex lakes create sensors --location=$REGION -
 
 Same family as the service agent propagation problem in `gotchas.md`, and the same remedy: give it time rather than assuming the command is wrong.
 
-## The CLI twin, GSP1144
+## Related files
 
-`Knowledge Catalog: Qwik Start, Command Line` is this lab with different resource types: a **curated** zone instead of raw, and a **BigQuery dataset** instead of a Cloud Storage bucket. Same four checkpoints, same delete last ordering trap.
-
-```
-gcloud dataplex lakes create ecommerce --location=$REGION \
-  --display-name="Ecommerce" --description="Ecommerce Domain"
-
-gcloud dataplex zones create orders-curated-zone --location=$REGION --lake=ecommerce \
-  --display-name="Orders Curated Zone" --resource-location-type=SINGLE_REGION \
-  --type=CURATED --discovery-enabled --discovery-schedule="0 * * * *"
-
-bq mk --location=$REGION --dataset orders
-
-gcloud dataplex assets create orders-curated-dataset --location=$REGION --lake=ecommerce \
-  --zone=orders-curated-zone --display-name="Orders Curated Dataset" \
-  --resource-type=BIGQUERY_DATASET --resource-name=projects/$PROJECT_ID/datasets/orders \
-  --discovery-enabled
-```
-
-One error in that lab's text worth knowing, because it reads as a warning about data loss. It says *"This action does delete the underlying data in the BigQuery dataset"* and then contradicts itself in the next sentence with *"It simply removes the BigQuery dataset from being accessible or discoverable"*. A `not` has been dropped. This lab's console version of the same paragraph has it right. `assets delete` detaches and nothing else, in either direction.
+- `gsp1144-knowledge-catalog-command-line.md` is this lab through the CLI, with a curated zone and a BigQuery dataset instead of a raw zone and a bucket. Same four checkpoints and the same delete last ordering trap, and it runs in five minutes.
