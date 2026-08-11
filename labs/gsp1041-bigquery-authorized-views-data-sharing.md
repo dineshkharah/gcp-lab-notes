@@ -105,6 +105,8 @@ Two sibling labs reuse tasks 1 to 3 of this one almost verbatim and then diverge
 - `gsp1042-analytics-as-a-service-data-sharing.md` ends in a Looker Studio dashboard per customer instead of the two `Access Denied` queries.
 - `gsp1043-consuming-datasets-data-twin.md` rearranges the three projects into a chain, partner to publisher to customer, and starts from a destination table rather than a view.
 
+The challenge lab that closes the badge is `gsp375-share-data-google-data-cloud-challenge.md`, which adds the return leg from customer back to partner and is the only lab in the family where the authorize step is load bearing.
+
 Also:
 
 - `gsp647-iam-permissions-with-gcloud.md` for the same class of problem in Cloud Shell, where the risk is the wrong `gcloud` configuration being active rather than the wrong console being open.

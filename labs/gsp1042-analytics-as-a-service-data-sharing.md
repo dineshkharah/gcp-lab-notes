@@ -61,4 +61,5 @@ So the two mechanisms in this lab guard different things and neither substitutes
 
 - `gsp1041-bigquery-authorized-views-data-sharing.md`, tasks 1 to 3 identical, and the BigQuery side of the separation tested properly.
 - `gsp1043-consuming-datasets-data-twin.md`, the third lab in the family, where the three projects form a chain instead of a fan.
+- `gsp375-share-data-google-data-cloud-challenge.md`, the challenge lab, which reuses this Looker Studio flow with a bar chart over the customer's view.
 - `connected-sheets-bigquery.md` for the other route out of BigQuery into a reporting surface.

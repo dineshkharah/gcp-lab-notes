@@ -98,3 +98,4 @@ That is the table versus view tradeoff made concrete. A view would have kept the
 
 - `gsp1041-bigquery-authorized-views-data-sharing.md`, the shared tasks and the properly tested version of the separation.
 - `gsp1042-analytics-as-a-service-data-sharing.md`, the same first three tasks ending in Looker Studio dashboards.
+- `gsp375-share-data-google-data-cloud-challenge.md`, the challenge lab, where the same authorize step is required rather than decorative.

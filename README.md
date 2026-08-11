@@ -41,6 +41,7 @@ Challenge labs:
 - `labs/gsp315-store-process-and-manage-data.md`
 - `labs/gsp322-build-a-secure-network-challenge.md`
 - `labs/gsp374-bigquery-soccer-bqml.md`
+- `labs/gsp375-share-data-google-data-cloud-challenge.md`
 - `labs/gsp380-bigtable.md`
 - `labs/gsp381-cloud-spanner.md`
 - `labs/gsp393-cicd-pipelines-challenge.md`
