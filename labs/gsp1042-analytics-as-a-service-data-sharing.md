@@ -60,4 +60,5 @@ So the two mechanisms in this lab guard different things and neither substitutes
 ## Related files
 
 - `gsp1041-bigquery-authorized-views-data-sharing.md`, tasks 1 to 3 identical, and the BigQuery side of the separation tested properly.
+- `gsp1043-consuming-datasets-data-twin.md`, the third lab in the family, where the three projects form a chain instead of a fan.
 - `connected-sheets-bigquery.md` for the other route out of BigQuery into a reporting surface.
