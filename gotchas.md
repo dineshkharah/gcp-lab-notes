@@ -138,6 +138,8 @@ gcloud config configurations list
 
 That prints every configuration with its account, project and zone in one table. Run it before claiming anything in a lab with more than one principal. The other half of the same problem is running a scored command as the wrong identity, which fails in a way that looks like a permissions bug.
 
+The console version of the same trap is a lab that hands out two or three sets of credentials with a console button for each, as GSP1041 does with three. **Close one console before opening the next**, which is what those labs tell you to do and it is not a formality. A second student account signed in over a live first one produces `Access Denied` on an object you just granted yourself, which reads like a broken grant rather than a browser session.
+
 ## Refresh the lab page before rebuilding anything
 
 On ARC130 the api key checkpoint failed with `Please create an API key` while the key existed, was enabled, and was visible in the console. Nothing was wrong. After finishing the two later tasks and **refreshing the lab page**, that checkpoint and one other both went green on their own.
