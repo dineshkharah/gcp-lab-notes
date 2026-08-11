@@ -57,6 +57,7 @@ Qwik starts and guided labs:
 - `labs/gsp097-natural-language-api-qwik-start.md`
 - `labs/gsp1026-managed-service-for-prometheus.md`
 - `labs/gsp1041-bigquery-authorized-views-data-sharing.md`
+- `labs/gsp1042-analytics-as-a-service-data-sharing.md`
 - `labs/gsp1048-spanner-database-fundamentals.md`
 - `labs/gsp126-natural-language-api-from-google-docs.md`
 - `labs/gsp1077-gke-pipeline-using-cloud-build.md`
