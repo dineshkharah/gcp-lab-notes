@@ -77,5 +77,6 @@ Unscored, in between tasks 2 and 3. January sales from all locations, showing ho
 
 - `gsp1062-validate-data-in-google-sheets.md`, the sibling lab for the same fictional company, covering sorting, filters, validation rules and data cleanup.
 - `gsp1063-finding-data-in-google-sheets.md`, the third of the set, on searching and rearranging data with functions.
+- `gsp379-functions-formulas-charts-sheets-challenge.md`, the challenge lab, which reuses this lab's chart and Slides embed.
 - `connected-sheets-bigquery.md` for Sheets driven from BigQuery data rather than a local workbook.
 - `gsp235-apps-script-sheets-maps-gmail.md` for scripting Sheets instead of charting it.

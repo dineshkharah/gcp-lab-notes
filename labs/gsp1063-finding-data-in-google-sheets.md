@@ -115,4 +115,5 @@ The thing to actually look at is **K4 flipping from `TRUE` to `FALSE`**. Once `I
 ## Related files
 
 - `gsp1061-use-charts-in-google-sheets.md` and `gsp1062-validate-data-in-google-sheets.md`, the other two labs for this bakery, both with their workbooks under `labs/assets/`.
+- `gsp379-functions-formulas-charts-sheets-challenge.md`, the challenge lab that closes the badge, which reuses `VLOOKUP` and find and replace from here and adds pivot tables and descriptive statistics.
 - `connected-sheets-bigquery.md` for querying real BigQuery data from Sheets, where `QUERY` is replaced by actual SQL.

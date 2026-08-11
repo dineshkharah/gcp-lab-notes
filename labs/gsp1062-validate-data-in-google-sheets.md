@@ -113,5 +113,6 @@ The dialog reports how many rows it removed, which is the number to sanity check
 
 - `gsp1061-use-charts-in-google-sheets.md`, the charting lab for the same fictional company, including its source workbook under `labs/assets/`.
 - `gsp1063-finding-data-in-google-sheets.md`, the third of the set, covering SPLIT, TRANSPOSE, SUBSTITUTE, VLOOKUP, QUERY and IFERROR.
+- `gsp379-functions-formulas-charts-sheets-challenge.md`, the challenge lab, which reuses this lab's PROPER and data validation rule and prefers the Text is valid email criterion over the construction used here.
 - `connected-sheets-bigquery.md` for Sheets over BigQuery data.
 - `gsp235-apps-script-sheets-maps-gmail.md` for scripting Sheets rather than using built in functions.
