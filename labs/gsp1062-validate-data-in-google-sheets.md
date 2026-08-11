@@ -112,5 +112,6 @@ The dialog reports how many rows it removed, which is the number to sanity check
 ## Related files
 
 - `gsp1061-use-charts-in-google-sheets.md`, the charting lab for the same fictional company, including its source workbook under `labs/assets/`.
+- `gsp1063-finding-data-in-google-sheets.md`, the third of the set, covering SPLIT, TRANSPOSE, SUBSTITUTE, VLOOKUP, QUERY and IFERROR.
 - `connected-sheets-bigquery.md` for Sheets over BigQuery data.
 - `gsp235-apps-script-sheets-maps-gmail.md` for scripting Sheets rather than using built in functions.

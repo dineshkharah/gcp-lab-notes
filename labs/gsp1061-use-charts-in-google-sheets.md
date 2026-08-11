@@ -76,5 +76,6 @@ Unscored, in between tasks 2 and 3. January sales from all locations, showing ho
 ## Related files
 
 - `gsp1062-validate-data-in-google-sheets.md`, the sibling lab for the same fictional company, covering sorting, filters, validation rules and data cleanup.
+- `gsp1063-finding-data-in-google-sheets.md`, the third of the set, on searching and rearranging data with functions.
 - `connected-sheets-bigquery.md` for Sheets driven from BigQuery data rather than a local workbook.
 - `gsp235-apps-script-sheets-maps-gmail.md` for scripting Sheets instead of charting it.
