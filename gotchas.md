@@ -118,6 +118,16 @@ Compute's list api accepts only a restricted filter grammar, and gcloud translat
 
 For a handful of resources, **list them, read them, act by name.** If a destructive loop matters, echo the names first and confirm the list is not empty before the loop runs.
 
+## Connection refused and timeout mean opposite things
+
+Worth having straight, because they send you to different places.
+
+A GCP firewall denial **drops** the packet, so a blocked port gives a **timeout** or a hang. **Connection refused** means the packet arrived and nothing was listening. On GSP101, `ssh: connect to host ... port 22: Connection refused` a minute after creating a VM was sshd not started yet, and auditing firewall rules over it would have been time spent on rules that were already correct.
+
+So refused means wait or start the service. Timeout means check the rules and the tags.
+
+`curl` has the same split. `HTTP 000` is no response at all, nothing listening or no route. A `403` or `404` means something answered, which is a much better position to be in.
+
 ## Some checkpoints want an exact row count, so claim them in order
 
 On GSP1049 each of the three data checkpoints wanted the table to hold exactly what the lab had created up to that point: two rows, then six, then a hundred and fifty thousand. Loading the csv before claiming the first two made both of them unpassable, and the only way back was deleting rows with partitioned dml, claiming each checkpoint at the right count, then reloading.

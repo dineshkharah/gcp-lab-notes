@@ -39,6 +39,7 @@ Challenge labs:
 - `labs/arc131-speech-to-text.md`
 - `labs/cloud-storage-three-bucket-lab.md`
 - `labs/connected-sheets-bigquery.md`
+- `labs/gsp101-deploy-troubleshoot-website-challenge.md`
 - `labs/gsp315-store-process-and-manage-data.md`
 - `labs/gsp322-build-a-secure-network-challenge.md`
 - `labs/gsp327-bigquery-ml-fare-prediction-challenge.md`
