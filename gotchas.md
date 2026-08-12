@@ -207,6 +207,20 @@ The scripts floating around for these labs are usually built for a different var
 
 **Read the end of the script before running the start of it.** The ARC122 one finishes with an interactive `Would you like to cleanup resources? (y/N)` that deletes the api key and runs `gsutil -m rm -r` over the whole bucket, including the two response files the checkpoints score. A stray keystroke at that prompt undoes the lab. Scripts also tend to `exit 1` on failures that are not fatal, like an object acl call that a uniform access bucket refuses, which stops the run before any scored work happens.
 
+## A scorer can want the action, not the end state
+
+GSP510 asks for a GKE cluster in task 1 and Managed Prometheus enabled on it in task 2. Passing `--enable-managed-prometheus` to `clusters create` folds the second into the first and saves a five minute control plane operation, and it genuinely works: the cluster reports `managedPrometheusConfig.enabled: true` and `gmp-system` runs the operator plus a collector per node.
+
+The checkpoint still returned 15 of 20 with `Please enable Managed Prometheus on the cluster.` Re-clicking after everything was ready changed nothing. Running the separate command took it to 20 of 20 with the state already true beforehand:
+
+```
+gcloud container clusters update CLUSTER --zone ZONE --enable-managed-prometheus
+```
+
+So some checkpoints watch for an **operation** rather than reading a resource. That kills a whole class of shortcut: folding a later task's flag into an earlier task's create command, even when the end state is identical and provably correct. Where a lab presents enabling something as its own task, spend the minutes and run it as its own command.
+
+The reverse is worth remembering too. Most checkpoints do only read state, which is what makes the recovery in this file's row count section work. There is no way to tell which kind you have except by trying, so keep the cheap fix in mind rather than assuming the work is wrong.
+
 ## A challenge lab changes the values the guided lab taught you
 
 These notes exist to make the guided lab pay for the challenge lab, so it is worth saying where that goes wrong. A challenge lab reuses the same products with the details deliberately altered, and the habit is what trips you rather than the knowledge.

@@ -47,6 +47,7 @@ Challenge labs:
 - `labs/gsp380-bigtable.md`
 - `labs/gsp381-cloud-spanner.md`
 - `labs/gsp393-cicd-pipelines-challenge.md`
+- `labs/gsp510-manage-kubernetes-challenge.md`
 - `labs/gsp511-infrastructure-for-aws-professionals.md`
 - `labs/gsp526-privileged-access-manager-challenge.md`
 - `labs/gsp528-ncc-challenge.md`
