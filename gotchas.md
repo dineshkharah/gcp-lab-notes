@@ -205,6 +205,8 @@ The date is also worth reading across labs that share tasks. GSP1041 and GSP1042
 
 The scripts floating around for these labs are usually built for a different variant of the same lab. Things found wrong in them: source bucket paths from an older lab id, a randomised api id where the lab requires a fixed one, an alert policy display name that does not match, a filename typo that makes the script exit immediately, an entire BigQuery export section for a lab that never mentions BigQuery, and iam grants aimed at the wrong service account. Read them, take the shape, check every literal against the lab text.
 
+**Two guides agreeing is not confirmation.** GSP527 has scripts circulating under two different channel brandings that are byte identical in the code, including the same `yourproject` placeholder left unsubstituted and the same hardcoded region. One is a copy of the other, so the second one corroborates nothing. Check the literals against the lab text either way.
+
 **Read the end of the script before running the start of it.** The ARC122 one finishes with an interactive `Would you like to cleanup resources? (y/N)` that deletes the api key and runs `gsutil -m rm -r` over the whole bucket, including the two response files the checkpoints score. A stray keystroke at that prompt undoes the lab. Scripts also tend to `exit 1` on failures that are not fatal, like an object acl call that a uniform access bucket refuses, which stops the run before any scored work happens.
 
 ## A scorer can want the action, not the end state

@@ -50,6 +50,7 @@ Challenge labs:
 - `labs/gsp510-manage-kubernetes-challenge.md`
 - `labs/gsp511-infrastructure-for-aws-professionals.md`
 - `labs/gsp526-privileged-access-manager-challenge.md`
+- `labs/gsp527-gemini-code-assist-challenge.md`
 - `labs/gsp528-ncc-challenge.md`
 - `labs/streaming-analytics-into-bigquery.md`
 

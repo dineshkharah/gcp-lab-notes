@@ -86,3 +86,7 @@ curl -s -w "\n" https://$GATEWAY_URL/gcfunction
 ```
 
 Expect `Message sent to Topic demo-topic!`. Messages take about five minutes to show in the subscription.
+
+## Related files
+
+`gsp527-gemini-code-assist-challenge.md` builds the same gateway over a Cloud Function, and the circulating script for it templates the function url instead of reading it back, which is the mistake this file's task 2 section exists to prevent.
