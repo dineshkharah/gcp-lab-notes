@@ -98,4 +98,6 @@ Worth keeping straight, because the lab mixes two unrelated collection paths:
 - **In cluster**: `--enable-managed-prometheus` on the GKE cluster, plus a **PodMonitoring** custom resource. That scrapes the example app's pods automatically. A PodMonitoring CR only sees its own namespace; `ClusterPodMonitoring` is the cross namespace version.
 - **On Cloud Shell**: the GMP prometheus binary scraping `node_exporter` on `localhost:9100`, with `--export.label.project-id` and `--export.label.location` telling the managed service where to file the metrics.
 
+The challenge lab for this badge is `gsp364-managed-prometheus-challenge.md`, which reuses the bucket upload checkpoint and where two of the lab's own commands no longer parse.
+
 The GKE half and the Cloud Shell half never touch each other. Both write into the same managed Prometheus backend, which is the actual point of the lab.

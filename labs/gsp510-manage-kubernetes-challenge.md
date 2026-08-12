@@ -194,6 +194,7 @@ The manifest requests `200m` cpu for a **single** replica on three `e2-medium` n
 ## Related files
 
 - `gsp1026-managed-service-for-prometheus.md`, PodMonitoring and the in cluster collection path.
+- `gsp364-managed-prometheus-challenge.md`, where the same `--enable-managed-prometheus` flag on `clusters create` **was** accepted by the checkpoint, which is the counterweight to this lab's finding.
 - `gsp736-debug-apps-on-gke.md`, logs based metrics and alerting policies through the console, and the reason to grep for line numbers before a line addressed `sed`.
 - `gsp053-managing-deployments-kubernetes-engine.md`, `rollout status` timeouts and deployment capacity.
 - `gsp1131-artifact-registry-qwik-start.md`, the `REGION-docker.pkg.dev/PROJECT/REPO/IMAGE:TAG` path anatomy.

@@ -43,6 +43,7 @@ Challenge labs:
 - `labs/gsp322-build-a-secure-network-challenge.md`
 - `labs/gsp327-bigquery-ml-fare-prediction-challenge.md`
 - `labs/gsp341-create-ml-models-bigquery-ml-challenge.md`
+- `labs/gsp364-managed-prometheus-challenge.md`
 - `labs/gsp374-bigquery-soccer-bqml.md`
 - `labs/gsp375-share-data-google-data-cloud-challenge.md`
 - `labs/gsp379-functions-formulas-charts-sheets-challenge.md`

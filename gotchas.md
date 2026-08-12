@@ -213,6 +213,21 @@ A rename does not have to reach the whole product. Knowledge Catalog, in GSP1143
 
 The date is also worth reading across labs that share tasks. GSP1041 and GSP1042 have three identical tasks, and their manuals are two months apart, so the same step is described with different menu labels in each. And the lag cuts the other way too: GSP1042 still calls the product Data Studio, renamed Looker Studio in 2022, which means searching the lab text for the name in the console finds nothing.
 
+## The lab's own commands can be stale enough not to parse
+
+Not just wrong values, actually invalid syntax. GSP364 hands you this:
+
+```
+gcloud storage buckets create -p $PROJECT gs://$PROJECT
+ERROR: (gcloud.storage.buckets.create) unrecognized arguments: -p
+```
+
+`-p` is a **gsutil `mb`** flag that did not survive the move to `gcloud storage`. The same lab also gives `gsutil -m acl set -R -a public-read`, which uniform bucket level access refuses. Two commands, both copy buttons, both dead, on a lab last tested October 2023.
+
+The damage is downstream rather than at the failing line. Everything after the failed create ran against a bucket that never existed, and the checkpoint that reads a file out of that bucket had nothing to find. **A `404` where you expected `403` is the tell** that the container is missing rather than the permissions being wrong.
+
+The gsutil to gcloud storage migration is the common source. Where a lab mixes `gsutil` and `gcloud storage` forms, expect flags from one to have been pasted into the other.
+
 ## Community scripts are a starting point, not an answer
 
 The scripts floating around for these labs are usually built for a different variant of the same lab. Things found wrong in them: source bucket paths from an older lab id, a randomised api id where the lab requires a fixed one, an alert policy display name that does not match, a filename typo that makes the script exit immediately, an entire BigQuery export section for a lab that never mentions BigQuery, and iam grants aimed at the wrong service account. Read them, take the shape, check every literal against the lab text.
@@ -234,6 +249,8 @@ gcloud container clusters update CLUSTER --zone ZONE --enable-managed-prometheus
 So some checkpoints watch for an **operation** rather than reading a resource. That kills a whole class of shortcut: folding a later task's flag into an earlier task's create command, even when the end state is identical and provably correct. Where a lab presents enabling something as its own task, spend the minutes and run it as its own command.
 
 The reverse is worth remembering too. Most checkpoints do only read state, which is what makes the recovery in this file's row count section work. There is no way to tell which kind you have except by trying, so keep the cheap fix in mind rather than assuming the work is wrong.
+
+Do not over generalise from it either. GSP364 turns on the same feature with the same flag on `clusters create` and its checkpoint accepted exactly that, because that lab presents it as a flag on the create command rather than as a task of its own. Follow each lab's framing; the `clusters update` is the thing to try when a checkpoint sticks, not a habit to apply everywhere.
 
 ## A challenge lab changes the values the guided lab taught you
 
