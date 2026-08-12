@@ -75,5 +75,6 @@ Expect the Hello World HTML and `HTTP 200`.
 
 ## Related files
 
+- `gsp301-remote-startup-script-challenge.md`, this lab with the Apache install moved into a startup script fetched from a bucket. Shorter, because it needs no SSH session.
 - `gsp089-cloud-monitoring-qwik-start.md` and `gsp1108-monitor-apache-with-ops-agent.md` for the same Apache on Compute Engine setup, with monitoring on top.
 - `gsp322-build-a-secure-network-challenge.md` for firewall rules and network tags at a larger scale, including a filter expression the Compute list api rejects.
