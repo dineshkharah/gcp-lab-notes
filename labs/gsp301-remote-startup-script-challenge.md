@@ -94,4 +94,5 @@ Worth reaching for before changing anything, since two of those three would be m
 ## Related files
 
 - `gsp101-deploy-troubleshoot-website-challenge.md`, the same lab without the bucket, and the source of the tag pairing and refused versus timeout notes.
+- `gsp303-windows-bastion-rdp-challenge.md` for the Windows equivalent, `windows-startup-script-ps1`, where the metadata has to be set at instance creation and the serial console shows nothing either way.
 - `gsp089-cloud-monitoring-qwik-start.md` and `gsp1108-monitor-apache-with-ops-agent.md` for Apache on Compute Engine with monitoring on top.

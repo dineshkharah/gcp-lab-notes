@@ -41,6 +41,7 @@ Challenge labs:
 - `labs/connected-sheets-bigquery.md`
 - `labs/gsp101-deploy-troubleshoot-website-challenge.md`
 - `labs/gsp301-remote-startup-script-challenge.md`
+- `labs/gsp303-windows-bastion-rdp-challenge.md`
 - `labs/gsp315-store-process-and-manage-data.md`
 - `labs/gsp322-build-a-secure-network-challenge.md`
 - `labs/gsp327-bigquery-ml-fare-prediction-challenge.md`

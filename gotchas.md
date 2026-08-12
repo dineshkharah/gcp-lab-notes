@@ -118,6 +118,18 @@ Compute's list api accepts only a restricted filter grammar, and gcloud translat
 
 For a handful of resources, **list them, read them, act by name.** If a destructive loop matters, echo the names first and confirm the list is not empty before the loop runs.
 
+## Missing log output is not proof nothing happened
+
+On GSP303 a Windows startup script installed IIS successfully and its serial console output was **completely empty**, exactly as empty as two earlier attempts that genuinely had not run. I concluded from that silence that the script was not executing, twice, and was wrong the second time.
+
+```
+gcloud compute instances get-serial-port-output VM --zone ZONE | grep -i "startup-script"
+```
+
+Nothing, on the run that worked. `Write-Host` versus `Write-Output` made no difference; neither reached the buffer that command returns.
+
+The general rule: a log you have never seen produce output is not yet a diagnostic. Before treating silence as evidence, confirm the channel works at all by looking for something you know should be there. And where the check is cheap, **prefer testing the outcome over reading about it** — on that lab, clicking the checkpoint was faster and more reliable than any amount of log reading, and it is the thing you actually care about.
+
 ## Connection refused and timeout mean opposite things
 
 Worth having straight, because they send you to different places.
