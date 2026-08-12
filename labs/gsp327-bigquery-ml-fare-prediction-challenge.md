@@ -177,4 +177,5 @@ If you wanted a model that actually worked, you would drop the two restrictive f
 ## Related files
 
 - `gsp374-bigquery-soccer-bqml.md`, the other BQML challenge lab, also run entirely with `bq`, where the per run constants were the whole difficulty too.
+- `gsp341-create-ml-models-bigquery-ml-challenge.md`, the third, where nothing is randomised and the difficulty is a checkpoint that refuses correct work if you run ahead of it.
 - `gsp1041-bigquery-authorized-views-data-sharing.md` and the rest of that family for the BigQuery sharing side.

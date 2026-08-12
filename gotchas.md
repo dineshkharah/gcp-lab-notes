@@ -154,6 +154,16 @@ Sometimes the lab admits this itself. GSP1145 warns twice that its aspect checkp
 
 The other half of that run: the Google Docs and Apps Script checkpoint also scored **without a document ever being created**, off the api traffic the earlier tasks had already generated. Worth clicking every checkpoint after a refresh before hand building the slowest task in a lab.
 
+## Sometimes only a fresh lab instance clears a failed checkpoint
+
+The uncomfortable counterpart to checkpoints latching once earned. On GSP341, checkpoint 3 refused correct work for over an hour and then passed on the first click in a new lab instance running the identical queries.
+
+What was tried in the first instance and did **not** work: two variants of the feature list, both spellings of the label option, repeated hard refreshes, deleting the extra model so the dataset held exactly what the task describes, rebuilding the whole chain in order inside that instance, and a fresh evaluation after each rebuild. Every attempt produced a model at the expected `roc_auc` of 0.909. Every click returned `It doesn't look like you've completed this step yet.`
+
+The one difference in the first instance was that **a later task's resources had been created before the earlier checkpoint was ever earned**, and deleting them afterwards did not recover it. So a failed checkpoint can behave as though it latches too, and no correction of state clears it.
+
+Two rules follow. **Build nothing belonging to a later task until the current checkpoint is green**, which is the one task at a time rule with teeth. And once a checkpoint has refused work you have verified several ways, **restart the lab rather than trying a seventh variation** — a clean run of GSP341 is twelve minutes against the hour spent proving the SQL was already correct.
+
 ## Read the scorer message
 
 The score alone says a checkpoint failed. The message under it says why. One Bigtable checkpoint sat at ten out of twenty with the real reason only in the popup: it wanted a multi region bucket named after the project id, while the bucket had been created regional.
