@@ -122,6 +122,8 @@ For a handful of resources, **list them, read them, act by name.** If a destruct
 
 On GSP1049 each of the three data checkpoints wanted the table to hold exactly what the lab had created up to that point: two rows, then six, then a hundred and fifty thousand. Loading the csv before claiming the first two made both of them unpassable, and the only way back was deleting rows with partitioned dml, claiming each checkpoint at the right count, then reloading.
 
+Where a lab caps a row count instead of fixing it, put a hard `LIMIT` under whatever fraction you sample with. GSP327 wants under a million rows out of a billion, and `RAND() < 0.05` landed at **869,447** against a 900,000 cap, three percent of headroom. At `0.06` it would have been 1.04 million and failed. The fraction depends on how selective the filters turn out to be, which is not knowable in advance, so a `LIMIT` costs nothing when the guess is right and saves the task when it is not.
+
 This is the concrete reason for the one task at a time rule. It is not tidiness. Racing ahead can put a lab into a state where an earlier checkpoint cannot be earned without destroying work.
 
 Checkpoints latch once earned, which is what makes that kind of recovery safe. The Dataflow checkpoint stayed green while the rows it had checked were being deleted.

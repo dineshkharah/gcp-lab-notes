@@ -55,6 +55,8 @@ WHERE Competitions.name != 'World Cup'
 
 Training took three to five minutes.
 
+The other BQML challenge lab is `gsp327-bigquery-ml-fare-prediction-challenge.md`, where the trap is the same in shape: randomised per run values, and everything else straightforward.
+
 Qualify the function names the same way everywhere. One community script calls them bare in the model query and dataset qualified in the prediction query, so one of the two always fails.
 
 ## Task 5, prediction
