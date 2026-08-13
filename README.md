@@ -38,6 +38,7 @@ Challenge labs:
 - `labs/arc126-apps-script-and-appsheet-challenge.md`
 - `labs/arc130-natural-language-challenge.md`
 - `labs/arc131-speech-to-text.md`
+- `labs/arc133-bigquery-workspace-apps-script-challenge.md`
 - `labs/cloud-storage-three-bucket-lab.md`
 - `labs/connected-sheets-bigquery.md`
 - `labs/gsp101-deploy-troubleshoot-website-challenge.md`
