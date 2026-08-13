@@ -233,6 +233,8 @@ Every lab page prints **Manual Last Updated** at the bottom. Read it against the
 
 A rename does not have to reach the whole product. Knowledge Catalog, in GSP1143, is called that only in the console; the api is still `dataplex.googleapis.com`, the commands are still `gcloud dataplex`, and the permission in its error messages is still `dataplex.lakes.create`. So the console name and the command name disagree and neither is a typo. When a lab name and a command prefix do not match, check whether the product was renamed before assuming the lab is stale.
 
+A rename can also delete the lab's noun. ARC119 asks for a **tag template** with a template id and typed fields. There is no tag templates page in the current console at all; the thing that takes exactly those inputs now lives at **Knowledge Catalog > Metadata types > Aspect types**, and creating it there is what cleared the checkpoint. The `gcloud data-catalog tag-templates` command still exists, so the old vocabulary survives in the api while having vanished from the ui. **When a lab names a console page that is not there, look for the page whose input fields match** rather than concluding the lab is describing a product you no longer have.
+
 The date is also worth reading across labs that share tasks. GSP1041 and GSP1042 have three identical tasks, and their manuals are two months apart, so the same step is described with different menu labels in each. And the lag cuts the other way too: GSP1042 still calls the product Data Studio, renamed Looker Studio in 2022, which means searching the lab text for the name in the console finds nothing.
 
 ## The lab's own commands can be stale enough not to parse

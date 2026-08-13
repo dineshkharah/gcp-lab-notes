@@ -33,6 +33,7 @@ Challenge labs:
 - `labs/arc114-speech-and-language-challenge.md`
 - `labs/arc117-organize-govern-data-knowledge-catalog-challenge.md`
 - `labs/arc115-monitoring-challenge.md`
+- `labs/arc119-secure-data-lake-cloud-storage-challenge.md`
 - `labs/arc122-vision-api-challenge.md`
 - `labs/arc126-apps-script-and-appsheet-challenge.md`
 - `labs/arc130-natural-language-challenge.md`
