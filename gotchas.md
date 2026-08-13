@@ -68,6 +68,8 @@ Two habits that prevent it:
 
 The score pattern is diagnostic too: on ARC114 the two tasks that used the key both sat at 10 of 25 while the two that did not were full marks. When a subset of checkpoints fails and they share one input, suspect the input.
 
+**But `--quiet` is not a free pass, because it picks a default and the default can be wrong.** `gcloud run deploy` without an authentication flag asks *"Allow unauthenticated invocations?"*, and `--quiet` answers **no**. So the community script for GSP328 deploys all three services the lab requires to be unauthenticated as private ones, prints a green tick for each, and fails three checkpoints on a flag that is absent rather than wrong. `--quiet` suppresses the question; it does not answer it the way you wanted. Where a prompt's answer is part of the task, pass the flag explicitly, `--allow-unauthenticated` or `--no-allow-unauthenticated`, and keep `--quiet` for prompts whose answer is only yes, such as a delete you intended.
+
 An editor counts as a prompt. `git pull` and `git merge` open one whenever the merge is not a fast forward, and `ssh-keygen` asks before overwriting an existing key file even when `-N ''` and `-f` have suppressed its other two questions. Both stop a pasted block dead. Cheap insurance at the top of any lab that uses git:
 
 ```
@@ -251,6 +253,22 @@ ERROR: (gcloud.storage.buckets.create) unrecognized arguments: -p
 The damage is downstream rather than at the failing line. Everything after the failed create ran against a bucket that never existed, and the checkpoint that reads a file out of that bucket had nothing to find. **A `404` where you expected `403` is the tell** that the container is missing rather than the permissions being wrong.
 
 The gsutil to gcloud storage migration is the common source. Where a lab mixes `gsutil` and `gcloud storage` forms, expect flags from one to have been pasted into the other.
+
+## A lab's own snippet can test the wrong resource and still return 200
+
+Worse than a command that fails, because nothing looks wrong.
+
+GSP328 task 5 asks you to deploy a **production** billing service, then hands you this to verify it:
+
+```
+PROD_BILLING_URL=$(gcloud run services describe private-billing-service-106 ...)
+```
+
+`private-billing-service-106` is **task 3's** service. The variable is named for production and holds the staging url. Run it verbatim, `curl` it with a token, get `200`, and conclude production works without ever having touched it. The snippet parses, executes, and returns success, so there is no error to notice.
+
+It is a copy and paste error in the lab, visible because the randomised suffixes differ, `-106` against `-789`. On the pre start version of the page both are the same placeholder prose and the mistake is invisible.
+
+So **read what a verification command names, not just whether it succeeds**. A test that passes against the wrong object is worse than no test, because it retires the question. The same care applies to a `describe` or `curl` you write yourself from a variable set several commands earlier.
 
 ## Community scripts are a starting point, not an answer
 
