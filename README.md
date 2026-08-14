@@ -46,6 +46,7 @@ Challenge labs:
 - `labs/gsp303-windows-bastion-rdp-challenge.md`
 - `labs/gsp304-docker-image-to-kubernetes-challenge.md`
 - `labs/gsp305-scale-out-update-containerized-app-challenge.md`
+- `labs/gsp306-migrate-mysql-to-cloud-sql-challenge.md`
 - `labs/gsp315-store-process-and-manage-data.md`
 - `labs/gsp322-build-a-secure-network-challenge.md`
 - `labs/gsp327-bigquery-ml-fare-prediction-challenge.md`

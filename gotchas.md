@@ -138,6 +138,32 @@ Compute's list api accepts only a restricted filter grammar, and gcloud translat
 
 For a handful of resources, **list them, read them, act by name.** If a destructive loop matters, echo the names first and confirm the list is not empty before the loop runs.
 
+**The waiting version of the same bug never ends.** A readiness loop shaped like this spins forever if the create it is waiting on failed:
+
+```
+until [ "$(gcloud sql instances describe $SQL_NAME --format='value(state)' 2>/dev/null)" = "RUNNABLE" ]; do echo "still creating"; sleep 20; done
+```
+
+On GSP306 the `sql instances create` above it was rejected for a bad flag combination, so `describe` returned nothing on every pass and the loop printed `still creating` for eight minutes against an instance that did not exist. The `2>/dev/null` that makes the loop robust is also what hides the reason it can never finish.
+
+**Bound every wait**, the way the `for i in $(seq 1 20)` retries elsewhere in these notes are bounded, so a wait that will never succeed reports that instead of consuming the clock:
+
+```
+for i in $(seq 1 30); do [ "$(gcloud sql instances describe $SQL_NAME --format='value(state)' 2>/dev/null)" = "RUNNABLE" ] && echo READY && break; echo "still creating ($i)"; sleep 20; done
+```
+
+Or drop `--async` and let the create block, which costs the same wall clock and makes a failure impossible to miss.
+
+## Cloud SQL answers 403 for an instance that does not exist
+
+```
+ERROR: (gcloud.sql.databases.create) HTTPError 403: The client is not authorized to make this request.
+```
+
+That was a **missing instance**, not a permissions problem. The next command in the same block, a `describe`, said so plainly with `HTTPError 404: The Cloud SQL instance does not exist`, but the 403 came first and sends you auditing iam.
+
+Same family as the `404` versus `403` tell recorded under stale lab commands, and the same remedy: **before believing a permission error, confirm the thing it refers to exists.** A 403 on a create and a 404 on a describe of the same name means the name is wrong or absent.
+
 ## Missing log output is not proof nothing happened
 
 On GSP303 a Windows startup script installed IIS successfully and its serial console output was **completely empty**, exactly as empty as two earlier attempts that genuinely had not run. I concluded from that silence that the script was not executing, twice, and was wrong the second time.
