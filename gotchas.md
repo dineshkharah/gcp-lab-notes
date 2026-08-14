@@ -314,6 +314,24 @@ It is a copy and paste error in the lab, visible because the randomised suffixes
 
 So **read what a verification command names, not just whether it succeeds**. A test that passes against the wrong object is worse than no test, because it retires the question. The same care applies to a `describe` or `curl` you write yourself from a variable set several commands earlier.
 
+## A lab written for a console can still have an import api
+
+Before accepting that a lab is hours of clicking, check whether the product accepts its configuration as a file.
+
+GSP363 describes itself entirely in terms of the Apigee proxy editor: a wizard, hand edited xml for two endpoints, three AssignMessage policies, a JavaScript policy, a property set, a MessageLogging policy and a FaultRules block. Ninety minutes of authoring in a browser text area. Apigee also has an import endpoint that takes the whole proxy as a zip:
+
+```
+curl -X POST "https://apigee.googleapis.com/v1/organizations/$PROJECT_ID/apis?action=import&name=translate-v1" \
+  -H "Authorization: Bearer $(gcloud auth print-access-token)" \
+  -H "Content-Type: application/octet-stream" --data-binary @translate-v1.zip
+```
+
+Four of the five tasks arrive in that one call, and the remaining distribution objects are three more api calls.
+
+The tell is a product whose console **exports** anything: a proxy bundle, a Dataflow template, a workflow definition, a Deployment Manager config. If it can be exported it can usually be imported, and the checkpoints read the resulting object rather than watching you build it.
+
+Two cautions. The bundle has to be **read before it is trusted**, since the checkpoints inspect exact policy and flow names, and a bundle built for an earlier variant of the lab imports cleanly and scores nothing. And a bundle from a third party link is a dependency that will eventually die, so keep the console route written down as the fallback.
+
 ## Community scripts are a starting point, not an answer
 
 The scripts floating around for these labs are usually built for a different variant of the same lab. Things found wrong in them: source bucket paths from an older lab id, a randomised api id where the lab requires a fixed one, an alert policy display name that does not match, a filename typo that makes the script exit immediately, an entire BigQuery export section for a lab that never mentions BigQuery, and iam grants aimed at the wrong service account. Read them, take the shape, check every literal against the lab text.

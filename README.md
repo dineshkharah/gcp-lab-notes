@@ -52,6 +52,7 @@ Challenge labs:
 - `labs/gsp327-bigquery-ml-fare-prediction-challenge.md`
 - `labs/gsp328-serverless-applications-cloud-run-challenge.md`
 - `labs/gsp341-create-ml-models-bigquery-ml-challenge.md`
+- `labs/gsp363-develop-secure-apis-apigee-x-challenge.md`
 - `labs/gsp364-managed-prometheus-challenge.md`
 - `labs/gsp374-bigquery-soccer-bqml.md`
 - `labs/gsp375-share-data-google-data-cloud-challenge.md`
