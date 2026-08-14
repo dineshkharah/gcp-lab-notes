@@ -240,6 +240,19 @@ The score alone says a checkpoint failed. The message under it says why. One Big
 
 If a checkpoint wants multi region and the bucket is regional, the only fix is delete and recreate. Pass `--location=US` for multi region and a region name like `--location=us-east4` for regional. Also note that a newer region name can be valid for Dataflow and BigQuery while being rejected by Cloud Storage. `us-west8` returned `HTTPError 403: Permission denied on 'locations/us-west8' (or it may not exist)` for a bucket but worked fine as a Dataflow region.
 
+**The App Engine region is worse: it cannot be changed or deleted at all.** `gcloud app create --region=X` is permanent for the life of the project, so on GSP373 it is the one command with no recovery path. Two things make it easy to get wrong:
+
+- **App Engine region names are not Compute region names.** `europe-west1` is `europe-west` to App Engine, and `us-central1` is `us-central`. The community script for GSP373 derives its value from `commonInstanceMetadata.items[google-compute-default-region]`, which yields the Compute form and is frequently unset besides.
+- **The resulting hostname encodes the region**, `PROJECT.ew.r.appspot.com` for europe-west against `PROJECT.uc.r.appspot.com` for us-central. That same script hardcodes `uc`, so anywhere but us-central it hands you a wrong hostname with no error.
+
+Guard it rather than trusting the value, and read the guard before running the create:
+
+```
+gcloud app regions list --format="value(region)" | grep -x "$REGION" && echo "VALID" || echo "STOP"
+```
+
+Then confirm where it actually landed with `gcloud app describe --format="value(defaultHostname)"`, because the two letter code in the hostname is the only cheap proof.
+
 ## Order matters for Dataflow
 
 Create the staging bucket before submitting the job. Submitting first makes the job fail during staging and it takes about seven minutes to surface as `Failed`, which is a slow way to learn nothing.

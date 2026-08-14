@@ -54,6 +54,7 @@ Challenge labs:
 - `labs/gsp341-create-ml-models-bigquery-ml-challenge.md`
 - `labs/gsp363-develop-secure-apis-apigee-x-challenge.md`
 - `labs/gsp364-managed-prometheus-challenge.md`
+- `labs/gsp373-protect-cloud-traffic-chrome-enterprise-premium-challenge.md`
 - `labs/gsp374-bigquery-soccer-bqml.md`
 - `labs/gsp375-share-data-google-data-cloud-challenge.md`
 - `labs/gsp379-functions-formulas-charts-sheets-challenge.md`
