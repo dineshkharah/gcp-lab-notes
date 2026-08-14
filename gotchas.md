@@ -77,6 +77,24 @@ git config --global core.editor true
 export GIT_MERGE_AUTOEDIT=no
 ```
 
+## kubectl names the container after the image, not the deployment
+
+`kubectl create deployment echo-web --image=gcr.io/.../echo-app:v1` creates a deployment called `echo-web` containing a container called **`echo-app`**. The deployment name and the container name come from different places and only coincide by accident.
+
+This matters because `kubectl set image` addresses containers by name:
+
+```
+kubectl set image deployment/echo-web echo-app=gcr.io/$PROJECT/echo-app:v2
+```
+
+Guessing `echo-web=` there fails with an unresolved container reference, which reads like the deployment is wrong rather than the container name. Derive it instead of assuming:
+
+```
+export CONTAINER=$(kubectl get deployment echo-web -o jsonpath='{.spec.template.spec.containers[0].name}')
+```
+
+Related: **updating a deployment is not redeploying it.** Where a Service already exists, `kubectl expose` again creates a *second* Service with a *different* external IP, and a checkpoint testing the original one then reports a working application as broken. `set image` and `scale` mutate what is there; `create` and `expose` add.
+
 ## Always give kubectl rollout status a timeout
 
 On GSP053 the lab says `kubectl rollout status` returns immediately after a `rollout pause`. It does not. It blocks forever on `Waiting for deployment ... 1 out of 3 new replicas have been updated`.
