@@ -8,6 +8,7 @@ Notes from working through Google Cloud Skills Boost labs, mostly the challenge 
 - `gotchas.md` is the list of traps that turn up across many labs. Read this one first. Almost all the time lost in these labs came from a handful of repeating causes and they are all in there.
 - `labs/` has one file per lab, named by its lab id. Each file lists the tasks, the commands that actually worked, and what went wrong.
 - `labs/assets/` holds files a lab needs uploaded or imported, referenced from the lab file that uses them.
+- `courses/` has one file per course that is quizzes rather than hands on work, with the questions, the answers, and the distractor patterns worth carrying to the next quiz.
 
 ## How to use it before a lab
 
@@ -110,6 +111,10 @@ Qwik starts and guided labs:
 - `labs/stream-processing-pubsub-to-dataflow.md`
 
 Older ones with no commands kept: `labs/earlier-labs.md`
+
+Courses that are quizzes rather than labs:
+
+- `courses/mlops-with-agent-platform-model-evaluation.md`
 
 ## The values in these notes are not answers
 
