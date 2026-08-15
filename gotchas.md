@@ -236,6 +236,20 @@ Two rules follow. **Build nothing belonging to a later task until the current ch
 
 The score alone says a checkpoint failed. The message under it says why. One Bigtable checkpoint sat at ten out of twenty with the real reason only in the popup: it wanted a multi region bucket named after the project id, while the bucket had been created regional.
 
+## A stored value can be padded, so an exact match filter finds nothing
+
+GSP346's FAA airports dataset stores `facility_type` as a **fixed width** field, so the value is not `HELIPORT` but `HELIPORT` followed by trailing spaces. A filter typed as `HELIPORT` can therefore match nothing while looking completely correct, and the result is an empty table rather than an error.
+
+In a Looker filter expression `^` escapes the next character, so the literal that works is:
+
+```
+HELIPORT^ ^ ^ ^ ^ ^ ^ 
+```
+
+That is `HELIPORT` plus seven escaped spaces. Unreadable, and impossible to guess from the field name.
+
+The general form of the problem is wider than Looker. Legacy and fixed width sources produce padded strings in BigQuery and in Sheets too, where `=COUNTIF(range,"HELIPORT")` fails for the same reason. **When an exact match returns zero rows against data you can see, suspect the value before the filter.** A `contains` or `starts with` comparison, or `TRIM`, will tell you in one attempt which it is.
+
 ## Bucket location is not changeable
 
 If a checkpoint wants multi region and the bucket is regional, the only fix is delete and recreate. Pass `--location=US` for multi region and a region name like `--location=us-east4` for regional. Also note that a newer region name can be valid for Dataflow and BigQuery while being rejected by Cloud Storage. `us-west8` returned `HTTPError 403: Permission denied on 'locations/us-west8' (or it may not exist)` for a bucket but worked fine as a Dataflow region.
