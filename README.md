@@ -67,6 +67,7 @@ Challenge labs:
 - `labs/gsp393-cicd-pipelines-challenge.md`
 - `labs/gsp510-manage-kubernetes-challenge.md`
 - `labs/gsp511-infrastructure-for-aws-professionals.md`
+- `labs/gsp517-genai-apps-gemini-streamlit-challenge.md`
 - `labs/gsp526-privileged-access-manager-challenge.md`
 - `labs/gsp527-gemini-code-assist-challenge.md`
 - `labs/gsp528-ncc-challenge.md`

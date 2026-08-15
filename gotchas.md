@@ -108,6 +108,40 @@ export CONTAINER=$(kubectl get deployment echo-web -o jsonpath='{.spec.template.
 
 Related: **updating a deployment is not redeploying it.** Where a Service already exists, `kubectl expose` again creates a *second* Service with a *different* external IP, and a checkpoint testing the original one then reports a working application as broken. `set image` and `scale` mutate what is there; `create` and `expose` add.
 
+## Silencing stderr makes a working command look hung
+
+`2>/dev/null` on a `git clone` to suppress an "already exists" error also suppresses **the clone's progress**, because git writes progress to stderr. On GSP517 that turned a legitimately slow clone of a repo well over a gigabyte into a blank terminal with no output for minutes, indistinguishable from a hang.
+
+Anything that reports progress on stderr is affected: `git`, `curl`, `docker`, `pip` in some modes, `gcloud` operation spinners.
+
+Two fixes, in order of preference. Make the command not fail, so nothing needs suppressing:
+
+```
+[ -d generative-ai ] || git clone --depth 1 https://github.com/GoogleCloudPlatform/generative-ai.git
+```
+
+Or accept the noise. An "already exists" error you can read beats silence you cannot interpret.
+
+And for any repo you only need the current files from, **`--depth 1`** is the difference between minutes and seconds. Nothing in these labs reads git history.
+
+## Read what the code reads, not what the lab tells you to set
+
+GSP517's task 5 table specifies `--set-env-vars PROJECT=$PROJECT,REGION=$REGION`. The application does not read either one. Line 16 of `chef.py` is:
+
+```
+LOCATION = os.environ.get("GOOGLE_CLOUD_REGION", "global")
+```
+
+So the variable that actually decides where the Gemini call goes is **`GOOGLE_CLOUD_REGION`**, and its default is `global`, which is the exact value the same lab warns produces a 404 in task 1. Set only what the lab lists and you get a service that deploys, returns `HTTP 200`, and fails the moment anyone presses the button.
+
+Setting all three costs nothing and satisfies both:
+
+```
+--set-env-vars=PROJECT=$PROJECT,REGION=$REGION,GOOGLE_CLOUD_REGION=$REGION
+```
+
+**Grep the source for `os.environ` before trusting a lab's environment variable table.** The checkpoint reads the deploy command; the application reads the code.
+
 ## Always give kubectl rollout status a timeout
 
 On GSP053 the lab says `kubectl rollout status` returns immediately after a `rollout pause`. It does not. It blocks forever on `Waiting for deployment ... 1 out of 3 new replicas have been updated`.
