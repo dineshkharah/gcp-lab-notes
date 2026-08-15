@@ -146,6 +146,7 @@ Two structural details worth having in advance, because they are the ones people
 
 ## Related files
 
+- `gsp349-deploy-manage-apigee-x-challenge.md`, the other Apigee challenge lab, covering the org, environments, the provisioning wizard and Cloud Armor rather than proxies and policies.
 - `gsp872-api-gateway-qwik-start.md` and `arc109-api-gateway-challenge.md` for API Gateway, the much simpler product that solves an overlapping problem.
 - `gsp647-iam-permissions-with-gcloud.md` for service accounts and role bindings on their own.
 - `gsp092-monitoring-and-logging-for-cloud-run-functions.md` for the Cloud Logging side of what `ML-LogTranslation` writes.
