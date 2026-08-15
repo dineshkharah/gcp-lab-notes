@@ -42,6 +42,7 @@ Challenge labs:
 - `labs/arc133-bigquery-workspace-apps-script-challenge.md`
 - `labs/cloud-storage-three-bucket-lab.md`
 - `labs/connected-sheets-bigquery.md`
+- `labs/genai129-deploy-agent-with-adk-challenge.md`
 - `labs/gsp101-deploy-troubleshoot-website-challenge.md`
 - `labs/gsp301-remote-startup-script-challenge.md`
 - `labs/gsp303-windows-bastion-rdp-challenge.md`

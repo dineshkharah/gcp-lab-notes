@@ -51,6 +51,19 @@ Qwiklabs project ids end in twelve hex characters. The credentials panel clips t
 
 Four separate labs had a checkpoint stuck at zero purely because its command never executed, while everything around it worked. `gcloud scheduler jobs run`, `gcloud storage buckets create`, and a Spanner `INSERT` were the ones that vanished. Before investigating config, search the terminal output for the command itself. The commands most likely to be lost are the ones that print little or nothing of their own, since there is no gap in the output to notice.
 
+## Write paste blocks so running them twice is harmless
+
+Blocks get pasted twice. A scrollback that looks like it did not take, a lost connection, a second terminal tab, an accidental middle click. So the question to ask of a block before sending it is not "is it correct" but "what happens if this runs again".
+
+Editing commands divide cleanly:
+
+- **Rewriting is idempotent.** A quoted heredoc that writes a whole file, a `sed` substitution whose pattern no longer matches after the first pass, `cp` from a fixed source. Run them ten times, same result.
+- **Appending is not.** On GENAI129 a `sed` that inserted a line after a match ran twice and produced a duplicate `AgentTool(...)` entry in a Python list. Nothing errored; the file was simply wrong in a way that would only show up at runtime.
+
+In that same run, the other two edits in the block, a heredoc file rewrite and a substitution `sed`, were both unaffected. Only the appending one broke.
+
+Where a block must append, either make it check first, or rewrite the whole file instead. And **put the backup `cp` at the top**, which by luck is what saved that run: the second pass snapshotted the correctly edited file before breaking it, so `cp file.bak file` was the whole fix.
+
 ## An interactive prompt in a pasted block eats the next line
 
 The mirror image of the problem above. On ARC114 the community script contained `read -p "Enter your API Key: " API_KEY_INPUT`, and pasting the block meant `read` consumed the **next line of the script** as its answer. `API_KEY` became the literal string `# Get API Key`, the real key was then handed to bash as a command, and both curls sent a garbage key into files that were written anyway, containing a 403.
