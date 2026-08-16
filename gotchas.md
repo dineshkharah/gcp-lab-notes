@@ -142,6 +142,8 @@ Setting all three costs nothing and satisfies both:
 
 **Grep the source for `os.environ` before trusting a lab's environment variable table.** The checkpoint reads the deploy command; the application reads the code.
 
+**`global` is not always wrong, though.** GSP515 sets `LOCATION=global` in its own instructions and the `curl` against `aiplatform.googleapis.com` works exactly as written. The difference is that GSP517 *defaults* to `global` where the lab elsewhere tells you to use the region, while GSP515 *specifies* it. Follow what the lab states for the task in front of you rather than carrying the fix from the other one.
+
 ## Always give kubectl rollout status a timeout
 
 On GSP053 the lab says `kubectl rollout status` returns immediately after a `rollout pause`. It does not. It blocks forever on `Waiting for deployment ... 1 out of 3 new replicas have been updated`.
