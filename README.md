@@ -5,6 +5,7 @@ Notes from working through Google Cloud Skills Boost labs, mostly the challenge 
 ## How this is organised
 
 - `workflow.md` is the process. How to run a lab from start to finish, what to line up before touching a command, what to check after each task.
+- `pending-labs.md` is the queue. Labs read or analysed but not finished, with what is already known about each. An entry comes off the list when its file appears in `labs/`.
 - `gotchas.md` is the list of traps that turn up across many labs. Read this one first. Almost all the time lost in these labs came from a handful of repeating causes and they are all in there.
 - `labs/` has one file per lab, named by its lab id. Each file lists the tasks, the commands that actually worked, and what went wrong.
 - `labs/assets/` holds files a lab needs uploaded or imported, referenced from the lab file that uses them.
