@@ -119,6 +119,7 @@ Qwik starts and guided labs:
 - `labs/gsp694-gcloud-for-network-configuration.md`
 - `labs/gsp695-manage-storage-configuration-gsutil.md`
 - `labs/gsp736-debug-apps-on-gke.md`
+- `labs/gsp821-gcloud-and-kubectl-for-gke.md`
 - `labs/gsp872-api-gateway-qwik-start.md`
 - `labs/stream-processing-pubsub-to-dataflow.md`
 
