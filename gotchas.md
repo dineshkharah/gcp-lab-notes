@@ -491,6 +491,8 @@ The scripts floating around for these labs are usually built for a different var
 
 **Two guides agreeing is not confirmation.** GSP527 has scripts circulating under two different channel brandings that are byte identical in the code, including the same `yourproject` placeholder left unsubstituted and the same hardcoded region. One is a copy of the other, so the second one corroborates nothing. Check the literals against the lab text either way.
 
+**A helper's title can name a different lab than its body.** The GSP525 one is headed *Establish Hybrid Network Connectivity with NCC*, with a matching video badge, and everything under the heading is GSP525 fills for code execution, Google Search grounding and a response schema. Nothing about networking appears in it. These files get produced by copying a previous one and replacing the body, and the heading is what gets forgotten. So a title that does not match is a reason to read the thing rather than a reason to discard it, and equally a reason not to trust that a correct looking title means the body was written for your lab. Check the body against the lab's own task list either way.
+
 **Read the end of the script before running the start of it.** The ARC122 one finishes with an interactive `Would you like to cleanup resources? (y/N)` that deletes the api key and runs `gsutil -m rm -r` over the whole bucket, including the two response files the checkpoints score. A stray keystroke at that prompt undoes the lab. Scripts also tend to `exit 1` on failures that are not fatal, like an object acl call that a uniform access bucket refuses, which stops the run before any scored work happens.
 
 ## A scorer can want the action, not the end state
