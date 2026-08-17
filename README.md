@@ -72,6 +72,7 @@ Challenge labs:
 - `labs/gsp511-infrastructure-for-aws-professionals.md`
 - `labs/gsp515-explore-generative-ai-gemini-api-challenge.md`
 - `labs/gsp517-genai-apps-gemini-streamlit-challenge.md`
+- `labs/gsp523-multimodal-vector-search-bigquery-challenge.md`
 - `labs/gsp526-privileged-access-manager-challenge.md`
 - `labs/gsp527-gemini-code-assist-challenge.md`
 - `labs/gsp528-ncc-challenge.md`

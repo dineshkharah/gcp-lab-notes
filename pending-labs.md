@@ -10,7 +10,6 @@ Anything not on this list either has a file in `labs/` or has never been looked 
 |---|---|---|
 | GSP355 | Create and Manage Cloud SQL for PostgreSQL Instances: Challenge Lab | analysed, never started |
 | GSP525 | Enhance Gemini Model Capabilities: Challenge Lab | analysed, never started |
-| GSP523 | Implement Multimodal Vector Search with BigQuery: Challenge Lab | analysed, never started |
 | GSP520 | Inspect Rich Documents with Gemini Multimodality and Multimodal RAG: Challenge Lab | analysed, never started |
 
 ## What is already known about each
@@ -37,38 +36,6 @@ Entirely a Jupyter notebook on Agent Platform Workbench, `#TODO` blanks in four 
 - **Task 4** a response schema plus `response_mime_type="application/json"` and `response_schema=`.
 - Check whether the notebook's location variable defaults to `global`, per the note in `gotchas.md`. GSP517 hit a 404 that way and this calls the same API.
 - Send the TODO cells as text before filling them; this SDK has changed shape more than once.
-
-### GSP523
-
-BigQuery SQL plus one external connection and three IAM grants. Doable entirely from Cloud Shell or entirely in the BigQuery SQL editor; the choice barely matters. Four tasks, four checkpoints, fifteen minutes stated, expect **twenty to twenty five**, nearly all of it generating embeddings over the images.
-
-**Task 1** is the only non SQL part:
-
-```
-bq mk --connection --location=REGION --connection_type=CLOUD_RESOURCE vector_conn
-bq show --connection --format=json PROJECT.REGION.vector_conn
-```
-
-The `show` output carries the auto generated service account, which needs three roles. **The lab gives display names and the api wants ids**, the same mismatch as GSP373 and GENAI129:
-
-| Lab's name | Role id |
-|---|---|
-| BigQuery Data Owner | `roles/bigquery.dataOwner` |
-| Storage Object Viewer | `roles/storage.objectViewer` |
-| Agent Platform User | `roles/aiplatform.user` |
-
-**Tasks 2 to 4** are three SQL statements with bracketed blanks. Most are mechanical substitutions of the project, the dataset `gcc_bqml_dataset`, and the table names the lab supplies. **Four blanks are actual knowledge:**
-
-- `[DEFINE_ENDPOINT]` the model endpoint, given as `MODEL_NAME` on the started page
-- `[EMBEDDINGS_FUNCTION]` is `ML.GENERATE_EMBEDDING`
-- `[VECTOR_SEARCH_FUNCTION]` is `VECTOR_SEARCH`
-- `[STATEMENT_TO_SELECT_TOP_2_RESULTS]` is `top_k => 2`, a named argument in a table function's argument list, not a `LIMIT`
-
-Three things likeliest to cost time:
-
-- **IAM propagation.** The connection's service account is brand new and the grants take a minute or two to work. Task 2's object table create is the first thing to exercise them, so a permission error there means wait and retry rather than regrant. Same family as the service agent note in `gotchas.md`.
-- **Region consistency.** The connection region, the dataset region and the model must line up. A connection in the wrong region errors at the object table step in a way that reads like a missing connection.
-- **The bucket is named after the project**, `uris=['gs://PROJECT_ID/*']`, as in ARC119 and GSP305. Confirm with `gcloud storage ls` rather than assuming.
 
 ### GSP520
 
