@@ -110,6 +110,14 @@ Guessing `echo-web=` there fails with an unresolved container reference, which r
 export CONTAINER=$(kubectl get deployment echo-web -o jsonpath='{.spec.template.spec.containers[0].name}')
 ```
 
+Related: **`kubectl expose --port` sets both sides unless you say otherwise.** `--target-port` defaults to `--port`, so `--port 8080` alone gives a Service listening on 8080 and forwarding to 8080. That is correct on GSP821, where `hello-app` serves 8080 and 8080 is what you want exposed. It is wrong on GSP304 and GSP305, where the app serves 8000 and the requirement is to answer on 80, so both flags are needed:
+
+```
+kubectl expose deployment echo-web --type=LoadBalancer --port 80 --target-port 8000
+```
+
+Omitting `--target-port` when the two differ produces a Service that forwards to a port nothing is listening on, which is the 504 GSP304's troubleshooting section describes. **Check the app's port before choosing whether one flag or two.**
+
 Related: **updating a deployment is not redeploying it.** Where a Service already exists, `kubectl expose` again creates a *second* Service with a *different* external IP, and a checkpoint testing the original one then reports a working application as broken. `set image` and `scale` mutate what is there; `create` and `expose` add.
 
 ## Silencing stderr makes a working command look hung
