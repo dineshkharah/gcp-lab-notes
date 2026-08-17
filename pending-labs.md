@@ -10,6 +10,7 @@ Anything not on this list either has a file in `labs/` or has never been looked 
 |---|---|---|
 | GSP355 | Create and Manage Cloud SQL for PostgreSQL Instances: Challenge Lab | analysed, never started |
 | GSP525 | Enhance Gemini Model Capabilities: Challenge Lab | analysed, never started |
+| GSP1210 | Multimodality with Gemini | analysed, never started |
 
 ## What is already known about each
 
@@ -35,6 +36,17 @@ Entirely a Jupyter notebook on Agent Platform Workbench, `#TODO` blanks in four 
 - **Task 4** a response schema plus `response_mime_type="application/json"` and `response_schema=`.
 - Check whether the notebook's location variable defaults to `global`, per the note in `gotchas.md`. GSP517 hit a 404 that way and this calls the same API.
 - Send the TODO cells as text before filling them; this SDK has changed shape more than once.
+
+### GSP1210
+
+**A guided lab, not a challenge lab**, despite arriving alongside them. No `TODO` or `INSERT` blanks anywhere; every task says "run through the *X* section of the notebook". Entirely JupyterLab, zero Cloud Shell.
+
+- **Nine checkpoints**, one per notebook section: multi image understanding, video description, audio understanding, reason across a codebase, video and audio, all modalities at once, recommendations from images, ER diagrams, image comparison.
+- **Twenty five minutes stated, expect thirty to forty**, because multimodal inference over video and audio is slow and there are nine sections of it.
+- **The constraint is rate limiting, not difficulty.** Do **not** Run All. Run one section, read its output, click its checkpoint, move on, which is how the lab is structured anyway. A 429 means wait a minute and rerun; rerunning immediately makes it worse.
+- **The checkpoints almost certainly verify the API call happened**, as in GSP515 and GSP517, so a cell that errored and got skipped fails its checkpoint even though the notebook looks finished.
+- Check the Getting Started cell's location variable is not `global` before running nine sections against it.
+- **Lab text bug:** the "Reason across a codebase" section is described as *"Gemini can directly process audio for long-context understanding"*, copied from the Audio understanding section above it. Read the heading, not the description.
 
 ## Not pending
 
