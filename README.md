@@ -57,6 +57,7 @@ Challenge labs:
 - `labs/gsp346-prepare-data-looker-dashboards-challenge.md`
 - `labs/gsp349-deploy-manage-apigee-x-challenge.md`
 - `labs/gsp363-develop-secure-apis-apigee-x-challenge.md`
+- `labs/gsp351-migrate-mysql-to-cloud-sql-dms-challenge.md`
 - `labs/gsp364-managed-prometheus-challenge.md`
 - `labs/gsp373-protect-cloud-traffic-chrome-enterprise-premium-challenge.md`
 - `labs/gsp374-bigquery-soccer-bqml.md`
