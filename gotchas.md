@@ -30,6 +30,27 @@ echo $PAM_SA
 
 A variable that came from the api cannot be a typo. GSP499 is the one exception found so far: its IAP agent does already exist, and only the `roles/run.invoker` binding is missing.
 
+## A binding that exists is not yet a binding that works
+
+The uncomfortable companion to the section below. Proving a role is attached does **not** prove it is usable, and the error you get in the gap names the role you already granted.
+
+On GSP523, `roles/aiplatform.user` was granted to the connection's service account and `get-iam-policy` listed it. The very next statement failed with:
+
+```
+The bqcx-...@gcp-sa-bigquery-condel.iam.gserviceaccount.com does not have the
+permission to access or use the endpoint. Please grant the 'Agent Platform User' role
+```
+
+Nothing was wrong. Waiting and rerunning the identical statement worked. The trap is that the message reads like a wrong role, and the obvious response is to hunt for a different one or to regrant, which changes nothing and burns clock.
+
+**So retry before you re-diagnose**, bounded so a real failure still surfaces:
+
+```
+for i in $(seq 1 10); do <the command> && echo OK && break; echo "iam not usable yet ($i), waiting 30s"; sleep 30; done
+```
+
+Same family as the service agent and 403 propagation notes: GSP1144 and ARC117 need this on `dataplex lakes create`, GENAI129 gets it for free because a ninety second build sits between the grant and its first use. **A permission error within a minute or two of granting the permission is a wait, not a bug.**
+
 ## Always prove an iam binding landed
 
 Exit status is not enough. Check the policy:
