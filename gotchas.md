@@ -250,6 +250,20 @@ So refused means wait or start the service. Timeout means check the rules and th
 
 **GSP693 is the clean demonstration and worth remembering as the reference case.** nginx is already running on the VM, and `curl` against it before the port 80 rule exists **hangs indefinitely**; the lab tells you to press Ctrl-C. After `firewall-rules create` plus `add-tags` it returns `200` instantly. Same host, same port, same listener already up: the only variable is whether the packet is dropped.
 
+## A cleanup task destroys what earlier checkpoints score, so find it before you start
+
+**Read the last task before running the first.** Where a lab ends in a teardown, the run is: build, click every checkpoint, then tear down. Checkpoints latch once earned, so that works, and there is no way back from scripting the whole thing and clicking afterwards.
+
+Five instances so far, in three shapes:
+
+- **An explicit teardown task.** GSP1144 task 4 deletes the lake, zone and asset that checkpoints 1 to 3 score. GSP685 task 6 deletes the `babynames` dataset that checkpoints 3, 4 and 5 score. GSP1143 is the console version of the same.
+- **A delete in the middle.** GSP328 task 3 begins by deleting the Cloud Run service checkpoint 1 scores, so the seven tasks collapse into two blocks split exactly there.
+- **A cleanup that sweeps up later work.** GSP399 task 1 ends by deleting every classic firewall rule on the VPC, which would remove task 3's two rules if task 3 ran first. Here the fix is ordering rather than pausing: task 1, then 3.
+
+The tell is a task named cleanup, remove, delete or disable, or a checkpoint phrased as an absence. Two minutes reading the task list buys back a whole lab attempt.
+
+Related: a **destructive loop** in a cleanup step is worth reading closely, since `for R in $(list everything on this network)` does not distinguish the lab's legacy resources from the ones you just created.
+
 ## Some checkpoints want an exact row count, so claim them in order
 
 On GSP1049 each of the three data checkpoints wanted the table to hold exactly what the lab had created up to that point: two rows, then six, then a hundred and fifty thousand. Loading the csv before claiming the first two made both of them unpassable, and the only way back was deleting rows with partitioned dml, claiming each checkpoint at the right count, then reloading.
