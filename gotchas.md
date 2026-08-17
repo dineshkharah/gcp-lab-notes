@@ -187,6 +187,15 @@ Compute's list api accepts only a restricted filter grammar, and gcloud translat
 
 For a handful of resources, **list them, read them, act by name.** If a destructive loop matters, echo the names first and confirm the list is not empty before the loop runs.
 
+**Negation is one of the things that grammar cannot express.** On GSP399, splitting rules into tagged and untagged looked like this and is not valid:
+
+```
+gcloud compute firewall-rules list --filter="network:unified-vpc AND -targetTags:*"
+ERROR: Invalid value for field 'filter': '(network eq ".*\bunified\-vpc\b.*")(targetTags ne ".*\b.*")'. Invalid list filter expression.
+```
+
+The remedy is the same as above: list everything once with `targetTags.list()` in the format string, read which rules have tags, and use the names. Two rules of four had tags and it took one glance.
+
 **The waiting version of the same bug never ends.** A readiness loop shaped like this spins forever if the create it is waiting on failed:
 
 ```
@@ -389,6 +398,25 @@ PROD_BILLING_URL=$(gcloud run services describe private-billing-service-106 ...)
 It is a copy and paste error in the lab, visible because the randomised suffixes differ, `-106` against `-789`. On the pre start version of the page both are the same placeholder prose and the mistake is invisible.
 
 So **read what a verification command names, not just whether it succeeds**. A test that passes against the wrong object is worse than no test, because it retires the question. The same care applies to a `describe` or `curl` you write yourself from a variable set several commands earlier.
+
+## An odd phrase in a task description is often the name of a flag
+
+GSP399's task 1 says *"Phased Migration (Exclusion Filters)"* and *"Secure IAM Tags Mapping"*. Those read like descriptions of an approach. They are not; they are the tool's own vocabulary:
+
+```
+gcloud beta compute firewall-rules migrate --help
+
+  --export-exclusion-patterns / --exclusion-patterns-file=FILE
+  --export-tag-mapping / --tag-mapping-file=FILE
+  --bind-tags-to-instances
+  --target-firewall-policy=POLICY
+```
+
+Every bullet in that task maps onto one flag. Reading the `--help` first turned a task that looked like it needed a hand written migration into four invocations of a purpose built tool, and it is also what let the migration preserve the real legacy rules rather than approximating them.
+
+The circulating guide for that lab did the opposite: one unfiltered `migrate` and then three hand authored policy rules, none of which match the source rules.
+
+So when a challenge lab uses a phrase that sounds like jargon rather than plain English, **run `--help` on the obvious command before writing anything.** Costs ten seconds. The same instinct applies to the reverse case below, where a product's api can absorb a whole lab that reads as console work.
 
 ## A lab written for a console can still have an import api
 

@@ -66,6 +66,7 @@ Challenge labs:
 - `labs/gsp380-bigtable.md`
 - `labs/gsp381-cloud-spanner.md`
 - `labs/gsp393-cicd-pipelines-challenge.md`
+- `labs/gsp399-design-implement-network-security-challenge.md`
 - `labs/gsp510-manage-kubernetes-challenge.md`
 - `labs/gsp511-infrastructure-for-aws-professionals.md`
 - `labs/gsp515-explore-generative-ai-gemini-api-challenge.md`
