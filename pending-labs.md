@@ -9,7 +9,6 @@ Anything not on this list either has a file in `labs/` or has never been looked 
 | Lab id | Name | State |
 |---|---|---|
 | GSP355 | Create and Manage Cloud SQL for PostgreSQL Instances: Challenge Lab | analysed, never started |
-| GSP525 | Enhance Gemini Model Capabilities: Challenge Lab | analysed, never started |
 | GSP520 | Inspect Rich Documents with Gemini Multimodality and Multimodal RAG: Challenge Lab | analysed, never started |
 
 ## What is already known about each
@@ -25,17 +24,6 @@ The PostgreSQL twin of `labs/gsp351-migrate-mysql-to-cloud-sql-dms-challenge.md`
 - **The primary key requirement is the silent failure.** Five tables need keys and the lab warns a badly prepared source "might fail to migrate some individual tables", so a migration that copies four of five looks green.
 - **Two restarts** that cannot overlap the migration: enabling the IAM auth database flag, and enabling point in time recovery.
 - Task 4 needs a UTC RFC 3339 timestamp taken *before* the row is added, and the clone must be named `postgres-orders-pitr` and left in place.
-
-### GSP525
-
-Entirely a Jupyter notebook on Agent Platform Workbench, `#TODO` blanks in four sections. No Cloud Shell at all, four checkpoints all reading notebook state.
-
-- **Task 1** installs the Gen AI SDK, imports, and a `genai.Client` for Vertex.
-- **Task 2** a `Tool` wrapping `ToolCodeExecution()`, passed through `GenerateContentConfig`.
-- **Task 3** a `Tool` wrapping `GoogleSearch()`, with **Nike Air Jordan XXXVI** as the product to search for.
-- **Task 4** a response schema plus `response_mime_type="application/json"` and `response_schema=`.
-- Check whether the notebook's location variable defaults to `global`, per the note in `gotchas.md`. GSP517 hit a 404 that way and this calls the same API.
-- Send the TODO cells as text before filling them; this SDK has changed shape more than once.
 
 ### GSP520
 
