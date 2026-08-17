@@ -244,6 +244,8 @@ So refused means wait or start the service. Timeout means check the rules and th
 
 `curl` has the same split. `HTTP 000` is no response at all, nothing listening or no route. A `403` or `404` means something answered, which is a much better position to be in.
 
+**GSP693 is the clean demonstration and worth remembering as the reference case.** nginx is already running on the VM, and `curl` against it before the port 80 rule exists **hangs indefinitely**; the lab tells you to press Ctrl-C. After `firewall-rules create` plus `add-tags` it returns `200` instantly. Same host, same port, same listener already up: the only variable is whether the packet is dropped.
+
 ## Some checkpoints want an exact row count, so claim them in order
 
 On GSP1049 each of the three data checkpoints wanted the table to hold exactly what the lab had created up to that point: two rows, then six, then a hundred and fifty thousand. Loading the csv before claiming the first two made both of them unpassable, and the only way back was deleting rows with partitioned dml, claiming each checkpoint at the right count, then reloading.
