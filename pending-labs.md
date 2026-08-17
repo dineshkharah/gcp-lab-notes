@@ -10,8 +10,8 @@ Anything not on this list either has a file in `labs/` or has never been looked 
 |---|---|---|
 | GSP355 | Create and Manage Cloud SQL for PostgreSQL Instances: Challenge Lab | analysed, never started |
 | GSP525 | Enhance Gemini Model Capabilities: Challenge Lab | analysed, never started |
-| GSP1210 | Multimodality with Gemini | analysed, never started |
 | GSP523 | Implement Multimodal Vector Search with BigQuery: Challenge Lab | analysed, never started |
+| GSP520 | Inspect Rich Documents with Gemini Multimodality and Multimodal RAG: Challenge Lab | analysed, never started |
 
 ## What is already known about each
 
@@ -37,17 +37,6 @@ Entirely a Jupyter notebook on Agent Platform Workbench, `#TODO` blanks in four 
 - **Task 4** a response schema plus `response_mime_type="application/json"` and `response_schema=`.
 - Check whether the notebook's location variable defaults to `global`, per the note in `gotchas.md`. GSP517 hit a 404 that way and this calls the same API.
 - Send the TODO cells as text before filling them; this SDK has changed shape more than once.
-
-### GSP1210
-
-**A guided lab, not a challenge lab**, despite arriving alongside them. No `TODO` or `INSERT` blanks anywhere; every task says "run through the *X* section of the notebook". Entirely JupyterLab, zero Cloud Shell.
-
-- **Nine checkpoints**, one per notebook section: multi image understanding, video description, audio understanding, reason across a codebase, video and audio, all modalities at once, recommendations from images, ER diagrams, image comparison.
-- **Twenty five minutes stated, expect thirty to forty**, because multimodal inference over video and audio is slow and there are nine sections of it.
-- **The constraint is rate limiting, not difficulty.** Do **not** Run All. Run one section, read its output, click its checkpoint, move on, which is how the lab is structured anyway. A 429 means wait a minute and rerun; rerunning immediately makes it worse.
-- **The checkpoints almost certainly verify the API call happened**, as in GSP515 and GSP517, so a cell that errored and got skipped fails its checkpoint even though the notebook looks finished.
-- Check the Getting Started cell's location variable is not `global` before running nine sections against it.
-- **Lab text bug:** the "Reason across a codebase" section is described as *"Gemini can directly process audio for long-context understanding"*, copied from the Audio understanding section above it. Read the heading, not the description.
 
 ### GSP523
 
@@ -80,6 +69,18 @@ Three things likeliest to cost time:
 - **IAM propagation.** The connection's service account is brand new and the grants take a minute or two to work. Task 2's object table create is the first thing to exercise them, so a permission error there means wait and retry rather than regrant. Same family as the service agent note in `gotchas.md`.
 - **Region consistency.** The connection region, the dataset region and the model must line up. A connection in the wrong region errors at the object table step in a way that reads like a missing connection.
 - **The bucket is named after the project**, `uris=['gs://PROJECT_ID/*']`, as in ARC119 and GSP305. Confirm with `gcloud storage ls` rather than assuming.
+
+### GSP520
+
+Entirely JupyterLab, zero Cloud Shell. Four checkpoints. **The heaviest of the notebook labs**: thirty five minutes stated, expect **forty five to sixty**, and the time goes on task 2 rather than task 1.
+
+- **Save the notebook before every checkpoint.** The lab says so explicitly and it applies to all four: *"Save the notebook script before clicking on the Check my progress button for every task."* An unsaved run scores nothing.
+- **Two setup steps, not one.** The Getting Started section, then *"the 4 cells in the Setup and requirements section"* before task 1. Skipping the second is the likeliest way to have task 1 fail for no visible reason.
+- **The checkpoint mapping is uneven.** Checkpoint 1 covers one section, checkpoint 2 one section, **checkpoint 3 covers four** (video description, object tags, more questions, extra information beyond the video), checkpoint 4 covers all of task 2.
+- **The video is given as an https url**, `https://storage.googleapis.com/spls/gsp520/google-pixel-8-pro.mp4`, and is used in three sections. Gemini on Vertex takes a **`gs://`** file uri for media, so if a cell feeds it to `Part.from_uri` it needs `gs://spls/gsp520/google-pixel-8-pro.mp4`. Read the surrounding cell before pasting the url as given.
+- **Task 2 builds metadata by calling Gemini once per image**, across a 14 page Google 10K split into Part 1 and Part 2, full of tables, charts and graphs. That is minutes of inference and the most likely place to hit the 429s the lab warns about. Run it once and let it finish rather than rerunning.
+- Task 2's helper functions are provided, so its fills are about calling them correctly rather than writing logic: `get_similar_text_from_query`, `print_text_to_text_citation`, `get_similar_image_from_query`, `print_text_to_image_citation`, `get_gemini_response`, `display_images`.
+- The other document, the Terms of Service, is **text only**, so image related helpers do nothing against it.
 
 ## Not pending
 
