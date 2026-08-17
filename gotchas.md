@@ -89,6 +89,32 @@ In that same run, the other two edits in the block, a heredoc file rewrite and a
 
 Where a block must append, either make it check first, or rewrite the whole file instead. And **put the backup `cp` at the top**, which by luck is what saved that run: the second pass snapshotted the correctly edited file before breaking it, so `cp file.bak file` was the whole fix.
 
+## Acquire before you destroy, and verify before you swap
+
+Some helpers do not fill in a lab's file, they replace it. The GSP520 one opens with exactly this, in the Jupyter terminal:
+
+```
+rm inspect_rich_documents_w_gemini_multimodality_and_multimodal_rag.ipynb
+curl -LO https://raw.githubusercontent.com/.../inspect_rich_documents_w_gemini_multimodality_and_multimodal_rag.ipynb
+```
+
+The `rm` runs first. That notebook is the only artifact every checkpoint in the lab reads, there is no second copy anywhere in the instance, and nothing in JupyterLab restores it. Anything that stops the download, a renamed repo path, a rate limit, no egress, ends the lab and costs a fresh instance.
+
+Worse, the download failing is not the same as the download erroring. **A failed `curl -L` against GitHub returns an HTML 404 page with a 200 status**, saved under the notebook's name. So the naive fix of putting the `curl` first still leaves a file that looks present, opens as garbage, and has overwritten nothing yet only because the `rm` has not run.
+
+The order that survives all of it: download to a scratch name, prove the content is what it claims, move the original aside rather than deleting it, then swap.
+
+```
+curl -L <url> -o replacement.ipynb
+python -c "import json,sys; json.load(open('replacement.ipynb')); print('valid notebook')"
+mv original.ipynb original.ipynb.bak
+mv replacement.ipynb original.ipynb
+```
+
+Keeping the original is the point, not politeness. It is the fallback to filling the blanks by hand, which is the only route left once the replacement turns out to be built for an older version of the lab.
+
+Generalises past notebooks. Any helper step that removes something the lab handed you before obtaining the thing meant to take its place is the same trade, and the same reordering fixes it.
+
 ## An interactive prompt in a pasted block eats the next line
 
 The mirror image of the problem above. On ARC114 the community script contained `read -p "Enter your API Key: " API_KEY_INPUT`, and pasting the block meant `read` consumed the **next line of the script** as its answer. `API_KEY` became the literal string `# Get API Key`, the real key was then handed to bash as a command, and both curls sent a garbage key into files that were written anyway, containing a 403.
