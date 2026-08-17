@@ -49,7 +49,11 @@ Qwiklabs project ids end in twelve hex characters. The credentials panel clips t
 
 ## Commands go missing out of long pasted blocks
 
-Four separate labs had a checkpoint stuck at zero purely because its command never executed, while everything around it worked. `gcloud scheduler jobs run`, `gcloud storage buckets create`, and a Spanner `INSERT` were the ones that vanished. Before investigating config, search the terminal output for the command itself. The commands most likely to be lost are the ones that print little or nothing of their own, since there is no gap in the output to notice.
+Five separate labs had a checkpoint stuck at zero purely because its command never executed, while everything around it worked. `gcloud scheduler jobs run`, `gcloud storage buckets create`, a Spanner `INSERT` and a `gcloud storage rsync` were the ones that vanished. Before investigating config, search the terminal output for the command itself. The commands most likely to be lost are the ones that print little or nothing of their own, since there is no gap in the output to notice.
+
+**The diagnostic that settles it fast: compare both sides, not one.** On GSP695 a `mv`, an `rm` and an `rsync` were pasted together. Locally the rename and delete had clearly happened, so everything pointed at the sync having worked and the checkpoint being wrong. Listing the **bucket** showed it byte for byte unchanged, which localised the failure to the one command between them in a single step.
+
+Where a block does a local change and then pushes it somewhere, **list both the source and the destination afterwards**. A correct source proves nothing about whether the transfer ran.
 
 ## Write paste blocks so running them twice is harmless
 
