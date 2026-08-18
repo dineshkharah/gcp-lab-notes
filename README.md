@@ -80,6 +80,7 @@ Challenge labs:
 - `labs/gsp526-privileged-access-manager-challenge.md`
 - `labs/gsp527-gemini-code-assist-challenge.md`
 - `labs/gsp528-ncc-challenge.md`
+- `labs/gsp541-agent-skills-multi-agent-systems-challenge.md`
 - `labs/streaming-analytics-into-bigquery.md`
 
 Qwik starts and guided labs:
