@@ -119,6 +119,7 @@ Qwik starts and guided labs:
 - `labs/gsp081-cloud-run-functions-console.md`
 - `labs/gsp089-cloud-monitoring-qwik-start.md`
 - `labs/gsp092-monitoring-and-logging-for-cloud-run-functions.md`
+- `labs/gsp095-pubsub-qwik-start-command-line.md`
 - `labs/gsp096-pubsub-qwik-start.md`
 - `labs/gsp421-apis-explorer-cloud-storage.md`
 - `labs/gsp659-deploy-website-on-cloud-run.md`
