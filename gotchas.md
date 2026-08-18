@@ -194,6 +194,15 @@ The score pattern is diagnostic too: on ARC114 the two tasks that used the key b
 
 **But `--quiet` is not a free pass, because it picks a default and the default can be wrong.** `gcloud run deploy` without an authentication flag asks *"Allow unauthenticated invocations?"*, and `--quiet` answers **no**. So the community script for GSP328 deploys all three services the lab requires to be unauthenticated as private ones, prints a green tick for each, and fails three checkpoints on a flag that is absent rather than wrong. `--quiet` suppresses the question; it does not answer it the way you wanted. Where a prompt's answer is part of the task, pass the flag explicitly, `--allow-unauthenticated` or `--no-allow-unauthenticated`, and keep `--quiet` for prompts whose answer is only yes, such as a delete you intended.
 
+**A `!` in a supplied password breaks the command that uses it.** GSP355 hands you the password `DMS_1s_cool!`, and an interactive bash expands `!'` as history:
+
+```
+-bash: !': event not found
+ERROR:  role "migration_admin" does not exist
+```
+
+The `CREATE USER` never ran, and the three grants after it failed on the missing role, so the block reported four errors for one cause. Quoting does not save you; **double quotes still expand history, and the `!` is inside single quotes for psql already**. Run `set +H` once at the top of the session, or the same paste silently prepares nothing.
+
 An editor counts as a prompt. `git pull` and `git merge` open one whenever the merge is not a fast forward, and `ssh-keygen` asks before overwriting an existing key file even when `-N ''` and `-f` have suppressed its other two questions. Both stop a pasted block dead. Cheap insurance at the top of any lab that uses git:
 
 ```
@@ -359,6 +368,42 @@ ERROR: (gcloud.sql.databases.create) HTTPError 403: The client is not authorized
 That was a **missing instance**, not a permissions problem. The next command in the same block, a `describe`, said so plainly with `HTTPError 404: The Cloud SQL instance does not exist`, but the 403 came first and sends you auditing iam.
 
 Same family as the `404` versus `403` tell recorded under stale lab commands, and the same remedy: **before believing a permission error, confirm the thing it refers to exists.** A 403 on a create and a 404 on a describe of the same name means the name is wrong or absent.
+
+## Grepping a log for ERROR hides the line that tells you the fix
+
+**This cost GSP355 two whole attempts.** The postgres log was searched with:
+
+```
+grep -iE "error|fatal|panic|denied" /var/log/postgresql/postgresql-14-main.log
+```
+
+which faithfully printed the symptom:
+
+```
+ERROR: library "pglogical_output" may not be used as an output plugin
+```
+
+and silently discarded the two lines directly beneath it, because PostgreSQL emits `DETAIL`, `HINT`, `CONTEXT` and `STATEMENT` as **separate log lines** and none of them contains the word error:
+
+```
+DETAIL:  The configuration parameter "output_plugin_libraries"
+         (currently 'pgoutput, test_decoding') does not name this library
+         as a trusted output plugin.
+HINT:    ... add it to "output_plugin_libraries" and reload the server configuration.
+STATEMENT: CREATE_REPLICATION_SLOT "pgl_orders_..." LOGICAL pglogical_output
+```
+
+The `HINT` is the entire fix. A plain `tail -30` showed it at once.
+
+So **read the log, do not filter it**, or at minimum keep the following lines:
+
+```
+grep -iE -A4 "error|fatal|panic" LOGFILE | tail -40
+```
+
+Same applies to any tool that separates a summary line from its explanation, which is most of them.
+
+**And do not judge a log line by its neighbours.** In that same log the `pglogical_output` error sat between `function aurora_version() does not exist` and `role "cloudsqladmin" does not exist`, both of which are genuinely harmless probes that DMS emits on every connection. It got dismissed as more of the same twice. **Correlate timestamps with the other side's log instead**: the DMS entry `Failed to add [databaseName=orders] to migration.` landed in the same second as the plugin error, which is what identified it.
 
 ## Missing log output is not proof nothing happened
 
@@ -631,6 +676,16 @@ gcloud container clusters update CLUSTER --zone ZONE --enable-managed-prometheus
 ```
 
 So some checkpoints watch for an **operation** rather than reading a resource. That kills a whole class of shortcut: folding a later task's flag into an earlier task's create command, even when the end state is identical and provably correct. Where a lab presents enabling something as its own task, spend the minutes and run it as its own command.
+
+**Sometimes the scorer reads the job rather than what the job produced, and then deleting the job is unrecoverable.** GSP355's checkpoint 2 says *"Please perform continuous migration from the stand alone PostgreSQL database to Cloud SQL"* and it reads the **migration job**. On the first attempt the job reported errors, so it was deleted and recreated, which is the intuitive recovery and cost the lab instance:
+
+- the destination already held a fully replicated database and still scored **0**, because the thing being scored had been deleted
+- a failed job leaves the destination as a `READ_REPLICA_INSTANCE` of a source representation instance, and **DMS will not adopt an existing replica**, so it disappears from the destination picker
+- the instance cannot simply be replaced, since the lab fixes its id and Cloud SQL will not reuse a name for days
+
+Recovery meant promoting the replica, dropping the migrated database through psql because `gcloud` refuses it on ownership, and dropping a leftover extension out of the destination's `postgres` database because DMS tests the destination for emptiness and looks inside it.
+
+**So when a long running job fails, restart it, do not delete it.** Most such products have a Restart that redoes the work in place. Reach for delete only once you know the checkpoint reads a resource you can rebuild.
 
 The reverse is worth remembering too. Most checkpoints do only read state, which is what makes the recovery in this file's row count section work. There is no way to tell which kind you have except by trying, so keep the cheap fix in mind rather than assuming the work is wrong.
 
