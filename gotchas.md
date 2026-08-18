@@ -30,6 +30,21 @@ echo $PAM_SA
 
 A variable that came from the api cannot be a typo. GSP499 is the one exception found so far: its IAP agent does already exist, and only the `roles/run.invoker` binding is missing.
 
+**But a variable that came from the api can still be unusable, so prove it before depending on it.** ARC100 lost most of a lab window to exactly this. The address was read back rather than composed, as prescribed above:
+
+```
+export GCS_SA=$(gcloud storage service-agent --project=$PROJECT_ID)
+```
+
+`gcloud storage service-agent` does not print a bare email. It printed a formatted block, so `$GCS_SA` held a newline and two spaces before the address:
+
+```
+gcs agent=[
+  service-NNN@gs-project-accounts.iam.gserviceaccount.com]
+```
+
+`add-iam-policy-binding` rejected it with `unrecognized arguments`, that single failure scrolled past four successful grants in the same block, and every deploy afterwards failed on the missing role. So the rule is **read it back and then bracket it**, `echo "[$VAR]"`, which is the same habit this file already prescribes for `read` prompts and for the same reason: a stray newline or space is invisible otherwise. Add `--format='value(email)'` where the command supports it, and where it does not, sanity check the shape before the grant.
+
 **A tool can offer to make this exact mistake for you, with the failing answer as its default.** GSP080's `gcloud functions deploy` stops to ask:
 
 ```
@@ -60,6 +75,19 @@ for i in $(seq 1 10); do <the command> && echo OK && break; echo "iam not usable
 ```
 
 Same family as the service agent and 403 propagation notes: GSP1144 and ARC117 need this on `dataplex lakes create`, GENAI129 gets it for free because a ninety second build sits between the grant and its first use. **A permission error within a minute or two of granting the permission is a wait, not a bug.**
+
+**Retry first has a failure mode, and ARC100 paid for it.** Five deploys thirty seconds apart, each three minutes long, all returning the identical permission error, because the binding had never been applied at all: the grant command had failed on a malformed variable and the retry loop patiently retried against nothing. Roughly fifteen minutes for no information.
+
+So the retry is conditional on one cheap check first:
+
+```
+gcloud projects get-iam-policy $PROJECT_ID --flatten="bindings[].members" --filter="bindings.members:PARTIAL_ADDRESS" --format="value(bindings.role)"
+```
+
+- **role listed and the command still fails** means propagation, so retry as above
+- **role not listed** means the grant failed, so fix the grant; retrying cannot help
+
+That takes a second and decides which of the two situations you are in. Guessing costs whichever is longer, the wait or the diagnosis, and on a fifteen minute lab it can cost the attempt. This is also why a retry loop should wrap a **fast** command where possible; wrapping a three minute deploy makes each wrong guess expensive.
 
 ## A --service-account flag needs a role on you, not just on it
 
@@ -189,6 +217,8 @@ echo "REGION=$REGION PROJECT_ID=$PROJECT_ID"
 A correct project with empty variables means only the exports were lost. This is the quiet failure worth guarding, because an unset variable in a later block does not error, it interpolates as nothing: a `curl` against an empty `$URL` prints nothing at all, and a bucket or image path with a missing region silently becomes malformed. Same reason the bracketed `echo "[$VAR]"` habit exists above.
 
 Either answer the Authorize dialog before pasting, or expect one reauth and re-export after it.
+
+**A restart mid lab does the same thing, and the symptoms are worse than an error.** ARC100's shell restarted between blocks, so `--trigger-bucket=$BUCKET` became `--trigger-bucket=''` and `gcloud storage cp travel.jpg gs://$BUCKET/` became `gs:///`. Both produced messages about invalid bucket names, which reads as a bad bucket rather than an empty variable. The tell is `Welcome to Cloud Shell!` at the top of the scrollback and a command numbering that has reset. Home directory contents survive, so any files written earlier are still there; only the environment is gone.
 
 ## kubectl names the container after the image, not the deployment
 
