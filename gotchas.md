@@ -30,6 +30,16 @@ echo $PAM_SA
 
 A variable that came from the api cannot be a typo. GSP499 is the one exception found so far: its IAP agent does already exist, and only the `roles/run.invoker` binding is missing.
 
+**A tool can offer to make this exact mistake for you, with the failing answer as its default.** GSP080's `gcloud functions deploy` stops to ask:
+
+```
+Service account [service-NNN@gcp-sa-pubsub.iam.gserviceaccount.com] is missing
+the role [roles/iam.serviceAccountTokenCreator].
+Bind the role ... ? (Y/n)?
+```
+
+Answering `y` returns `400 ... does not exist`, because the Pub/Sub agent has not been created in that project yet. The prompt is `(Y/n)` with **Y** capitalised, so the intuitive answer and a bare enter both take the path that errors out. Declining is correct there and the deploy proceeds; the role concerns Pub/Sub **push** authentication, which a gen2 function's Eventarc delivered trigger does not use.
+
 ## A binding that exists is not yet a binding that works
 
 The uncomfortable companion to the section below. Proving a role is attached does **not** prove it is usable, and the error you get in the gap names the role you already granted.
@@ -50,6 +60,28 @@ for i in $(seq 1 10); do <the command> && echo OK && break; echo "iam not usable
 ```
 
 Same family as the service agent and 403 propagation notes: GSP1144 and ARC117 need this on `dataplex lakes create`, GENAI129 gets it for free because a ninety second build sits between the grant and its first use. **A permission error within a minute or two of granting the permission is a wait, not a bug.**
+
+## A --service-account flag needs a role on you, not just on it
+
+A lab that hands you `--service-account SOMETHING@PROJECT.iam.gserviceaccount.com` is handing you an identity to **impersonate**, and impersonating one requires `iam.serviceAccounts.actAs` on it. Labs supply the flag and routinely forget the grant.
+
+GSP080's own deploy command, copied exactly, fails with:
+
+```
+Permission "iam.serviceAccounts.ActAs" denied on
+"EndUserCredentials to cloudfunctionsa@PROJECT_ID.iam.gserviceaccount.com"
+```
+
+**The error names two identities and the broken one is not the obvious one.** `EndUserCredentials` is the caller, meaning the student account. The service account named after it is the target, and it is fine. So the grant goes to the student, on the service account as a resource:
+
+```
+export ME=$(gcloud config get-value account)
+gcloud iam service-accounts add-iam-policy-binding TARGET_SA --member="user:$ME" --role="roles/iam.serviceAccountUser"
+```
+
+Note the shape. This is a binding **on a service account**, not on the project, so `projects add-iam-policy-binding` is the wrong command and the role is `roles/iam.serviceAccountUser` rather than anything named after the product being deployed.
+
+Two related habits. Read `ActAs` failures as a question about **who is calling**, and expect the fresh binding to need a retry rather than a rediagnosis, per the next section.
 
 ## Always prove an iam binding landed
 
