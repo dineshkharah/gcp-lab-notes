@@ -309,13 +309,14 @@ So refused means wait or start the service. Timeout means check the rules and th
 
 **Read the last task before running the first.** Where a lab ends in a teardown, the run is: build, click every checkpoint, then tear down. Checkpoints latch once earned, so that works, and there is no way back from scripting the whole thing and clicking afterwards.
 
-Five instances so far, in three shapes:
+Six instances so far, in four shapes:
 
 - **An explicit teardown task.** GSP1144 task 4 deletes the lake, zone and asset that checkpoints 1 to 3 score. GSP685 task 6 deletes the `babynames` dataset that checkpoints 3, 4 and 5 score. GSP1143 is the console version of the same.
 - **A delete in the middle.** GSP328 task 3 begins by deleting the Cloud Run service checkpoint 1 scores, so the seven tasks collapse into two blocks split exactly there.
 - **A cleanup that sweeps up later work.** GSP399 task 1 ends by deleting every classic firewall rule on the VPC, which would remove task 3's two rules if task 3 ran first. Here the fix is ordering rather than pausing: task 1, then 3.
+- **An undo presented as the next lesson.** GSP074 makes an object public in task 7, which checkpoint 3 scores, then task 8 removes that ACL and the paragraph after it deletes the object. Neither step is framed as cleanup; they read as further demonstration. So the tell below misses this one entirely, and only the checkpoint wording gives it away.
 
-The tell is a task named cleanup, remove, delete or disable, or a checkpoint phrased as an absence. Two minutes reading the task list buys back a whole lab attempt.
+The tell is usually a task named cleanup, remove, delete or disable, or a checkpoint phrased as an absence. GSP074 shows that is not sufficient. **The reliable read is to match every checkpoint against the tasks that come after it**, and ask of each whether it reverses the thing being scored. Two minutes on the task list buys back a whole lab attempt.
 
 Related: a **destructive loop** in a cleanup step is worth reading closely, since `for R in $(list everything on this network)` does not distinguish the lab's legacy resources from the ones you just created.
 
