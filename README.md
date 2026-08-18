@@ -112,6 +112,7 @@ Qwik starts and guided labs:
 - `labs/gsp499-iap-user-authentication.md`
 - `labs/gsp647-iam-permissions-with-gcloud.md`
 - `labs/gsp038-entity-and-sentiment-analysis.md`
+- `labs/gsp074-cloud-storage-qwik-start-cli-sdk.md`
 - `labs/gsp053-managing-deployments-kubernetes-engine.md`
 - `labs/gsp081-cloud-run-functions-console.md`
 - `labs/gsp089-cloud-monitoring-qwik-start.md`
