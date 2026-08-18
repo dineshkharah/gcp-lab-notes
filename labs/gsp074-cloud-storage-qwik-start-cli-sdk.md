@@ -84,5 +84,5 @@ So do not add a `--location` flag trying to match the region on the lab page. Re
 ## Related files
 
 - `gsp695-manage-storage-configuration-gsutil.md` for the same product at greater depth, including the transfer that has to be verified on both sides.
-- `cloud-storage-three-bucket-lab.md` and `arc119-secure-data-lake-cloud-storage-challenge.md` for bucket work as a challenge.
-- `pending-labs.md` for GSP421, the APIs Explorer version of these same operations.
+- `arc111-cloud-storage-data-protection-challenge.md` and `arc119-secure-data-lake-cloud-storage-challenge.md` for bucket work as a challenge.
+- `gsp421-apis-explorer-cloud-storage.md`, the APIs Explorer version of these same operations.

@@ -87,4 +87,4 @@ The task text goes on to describe attaching the tag to the bucket's Cloud Storag
 - `gsp1144-knowledge-catalog-command-line.md` for the hierarchy from the CLI, and for what lakes, zones and assets each mean.
 - `gsp1143-knowledge-catalog-console.md` for the console field to flag mapping, useful when a draw has to be clicked.
 - `gsp1145-aspects-knowledge-catalog-assets.md` for aspect types and aspects, which is what task 4 turns out to be.
-- `cloud-storage-three-bucket-lab.md` for bucket creation flags on their own.
+- `arc111-cloud-storage-data-protection-challenge.md` for bucket creation flags on their own.

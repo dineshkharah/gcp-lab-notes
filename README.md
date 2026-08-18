@@ -32,6 +32,7 @@ Challenge labs:
 - `labs/alloydb-create-and-manage-instances.md`
 - `labs/arc101-monitor-and-manage-resources.md`
 - `labs/arc109-api-gateway-challenge.md`
+- `labs/arc111-cloud-storage-data-protection-challenge.md`
 - `labs/arc114-speech-and-language-challenge.md`
 - `labs/arc117-organize-govern-data-knowledge-catalog-challenge.md`
 - `labs/arc115-monitoring-challenge.md`
@@ -41,7 +42,6 @@ Challenge labs:
 - `labs/arc130-natural-language-challenge.md`
 - `labs/arc131-speech-to-text.md`
 - `labs/arc133-bigquery-workspace-apps-script-challenge.md`
-- `labs/cloud-storage-three-bucket-lab.md`
 - `labs/connected-sheets-bigquery.md`
 - `labs/genai129-deploy-agent-with-adk-challenge.md`
 - `labs/gsp101-deploy-troubleshoot-website-challenge.md`

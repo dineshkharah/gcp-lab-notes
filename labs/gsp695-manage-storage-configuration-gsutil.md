@@ -116,4 +116,4 @@ Expect `ghcn_on_bq.ipynb` at **NEARLINE** and everything under `endpointslambda/
 
 - `gsp693-gcloud-cli-beginners-guide.md` and `gsp694-gcloud-for-network-configuration.md`, the first two labs in this course.
 - `gsp364-managed-prometheus-challenge.md` for the same `gsutil acl set` failure inside a challenge lab, where it did cost a checkpoint.
-- `cloud-storage-three-bucket-lab.md` and `gsp315-store-process-and-manage-data.md` for buckets in other contexts.
+- `arc111-cloud-storage-data-protection-challenge.md` and `gsp315-store-process-and-manage-data.md` for buckets in other contexts.
