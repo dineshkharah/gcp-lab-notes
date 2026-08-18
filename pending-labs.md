@@ -9,6 +9,7 @@ Anything not on this list either has a file in `labs/` or has never been looked 
 | Lab id | Name | State |
 |---|---|---|
 | GSP355 | Create and Manage Cloud SQL for PostgreSQL Instances: Challenge Lab | analysed, never started |
+| GSP421 | APIs Explorer: Cloud Storage | analysed, never started |
 | GSP524 | Analyze and Reason on Multimodal Data with Gemini: Challenge Lab | **started and halted at 30/100, do not start again without reading its section below** |
 
 ## What is already known about each
@@ -24,6 +25,18 @@ The PostgreSQL twin of `labs/gsp351-migrate-mysql-to-cloud-sql-dms-challenge.md`
 - **The primary key requirement is the silent failure.** Five tables need keys and the lab warns a badly prepared source "might fail to migrate some individual tables", so a migration that copies four of five looks green.
 - **Two restarts** that cannot overlap the migration: enabling the IAM auth database flag, and enabling point in time recovery.
 - Task 4 needs a UTC RFC 3339 timestamp taken *before* the row is added, and the clone must be named `postgres-orders-pitr` and left in place.
+
+### GSP421
+
+The APIs Explorer version of the operations `labs/gsp074-cloud-storage-qwik-start-cli-sdk.md` does from the CLI. Introductory, no cost, fifteen minutes stated, about ten. **Browser lab, essentially zero Cloud Shell**, six tasks and six checkpoints. Manual and last tested both April 2026.
+
+- **Task 3 is the only step that touches your own machine.** Two images get downloaded off the lab page as `demo-image1.png` and `demo-image2.png`, then uploaded through the Cloud Storage console. Everything else is the APIs Explorer web form.
+- **Three checkpoints get destroyed by later tasks.** Task 5 deletes both images that checkpoint 3 scores, and task 6 deletes the whole first bucket. So checkpoints 3 and 4 have to be claimed before task 5, and 5 before 6. Same shape as GSP074, three checkpoints deep instead of one.
+- **Both Credentials checkboxes**, Google OAuth 2.0 and API key, have to be ticked. The lab repeats it on every task because it is the usual cause of a 401 that reads as a permissions problem.
+- **`buckets.delete` needs an empty bucket**, which bucket 1 only becomes after task 5. Running task 6 early gives a 409.
+- Bucket names are globally unique, so prefix with the project id. No trailing spaces in the project field; a pasted project id often carries one.
+- The request body carries only `name`, so the bucket takes the `US` multi region default, which is what the lab's expected response shows. Do not add a location.
+- **Task 7 quiz answers:** default storage class specified at creation, **True**. Every bucket name unique across the whole namespace, **True**. The four storage classes, **Coldline, Multi-Regional, Regional, Nearline**; `Local storage` and `Cross region storage` do not exist.
 
 ### GSP524
 
