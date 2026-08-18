@@ -491,6 +491,16 @@ The one difference in the first instance was that **a later task's resources had
 
 Two rules follow. **Build nothing belonging to a later task until the current checkpoint is green**, which is the one task at a time rule with teeth. And once a checkpoint has refused work you have verified several ways, **restart the lab rather than trying a seventh variation** — a clean run of GSP341 is twelve minutes against the hour spent proving the SQL was already correct.
 
+## A checkpoint can score an uploaded artifact, and can pay out in halves
+
+Two behaviours from GSP541 that no earlier lab in these notes showed.
+
+**The scoring surface can be a bucket rather than the system.** Each of its first four tasks ends by copying edited source files into `gs://PROJECT_ID-agent-bucket` at the same relative paths, and the checkpoints read those objects. Nothing has to run. Which means an edit that was never uploaded scores zero, **and so does an edit made after the upload**, so the upload is the last step of every task rather than an afterthought.
+
+**A single checkpoint can award partial credit.** Its task 5 is worth 20, and a correct uploaded `run_local.sh` alone scored **10**. The other 10 arrived only after the local simulation actually ran and a topic went through the web interface. So a fraction like 10 of 20 is not a wrong answer, it is a half done objective, and the fix is to look for the second thing the task asked for rather than to re-examine the first.
+
+Both are worth checking for early. Claim the first checkpoint as soon as its files are uploaded: if it goes green with nothing deployed, the rest of that lab's tasks can be batched.
+
 ## Read the scorer message
 
 The score alone says a checkpoint failed. The message under it says why. One Bigtable checkpoint sat at ten out of twenty with the real reason only in the popup: it wanted a multi region bucket named after the project id, while the bucket had been created regional.
@@ -664,6 +674,33 @@ The scripts floating around for these labs are usually built for a different var
 **A helper's title can name a different lab than its body.** The GSP525 one is headed *Establish Hybrid Network Connectivity with NCC*, with a matching video badge, and everything under the heading is GSP525 fills for code execution, Google Search grounding and a response schema. Nothing about networking appears in it. These files get produced by copying a previous one and replacing the body, and the heading is what gets forgotten. So a title that does not match is a reason to read the thing rather than a reason to discard it, and equally a reason not to trust that a correct looking title means the body was written for your lab. Check the body against the lab's own task list either way.
 
 **Read the end of the script before running the start of it.** The ARC122 one finishes with an interactive `Would you like to cleanup resources? (y/N)` that deletes the api key and runs `gsutil -m rm -r` over the whole bucket, including the two response files the checkpoints score. A stray keystroke at that prompt undoes the lab. Scripts also tend to `exit 1` on failures that are not fatal, like an object acl call that a uniform access bucket refuses, which stops the run before any scored work happens.
+
+## Running independent operations in parallel races on whatever they share
+
+Parallelising is usually the right instinct on these labs, since builds and creates dominate the clock. GSP541's three specialist Cloud Run services do not depend on each other, so all three deploys went out at once. Two of them died in seconds:
+
+```
+Creating Container Repository........failed
+ERROR: (gcloud.run.deploy) ALREADY_EXISTS: Requested entity already exists
+```
+
+**Each `gcloud run deploy --source` creates the `cloud-run-source-deploy` Artifact Registry repository if it is missing**, so three concurrent first deploys all attempted it, one won and the others aborted before building anything.
+
+The shape generalises past Cloud Run. Any set of parallel operations that each lazily create a shared prerequisite, a repository, a bucket, a dataset, a service agent, will have one winner and N-1 failures on the first run only.
+
+So **serialise the first one, then parallelise the rest**:
+
+```
+gcloud run deploy first-service --source ... --quiet
+gcloud run deploy second --source ... > /tmp/second.log 2>&1 &
+gcloud run deploy third --source ... > /tmp/third.log 2>&1 &
+wait
+tail -n 6 /tmp/second.log /tmp/third.log
+```
+
+Two details that make this usable. **Redirect each background job to its own log**, because concurrent progress bars in one terminal are unreadable and the failure message gets buried. And **`wait` before reading them**, or you tail files that are still empty.
+
+The cost of getting it wrong is one build cycle, not the lab, and the retry needs no changes at all since the prerequisite now exists.
 
 ## A scorer can want the action, not the end state
 
