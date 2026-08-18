@@ -30,6 +30,7 @@ The whole method lives in `workflow.md`, so a cold start needs one line of setup
 Challenge labs:
 
 - `labs/alloydb-create-and-manage-instances.md`
+- `labs/arc100-store-process-manage-data-challenge.md`
 - `labs/arc101-monitor-and-manage-resources.md`
 - `labs/arc109-api-gateway-challenge.md`
 - `labs/arc111-cloud-storage-data-protection-challenge.md`
