@@ -326,11 +326,12 @@ So refused means wait or start the service. Timeout means check the rules and th
 
 **Read the last task before running the first.** Where a lab ends in a teardown, the run is: build, click every checkpoint, then tear down. Checkpoints latch once earned, so that works, and there is no way back from scripting the whole thing and clicking afterwards.
 
-Seven instances so far, in four shapes:
+Eight instances so far, in four shapes:
 
 - **An explicit teardown task.** GSP1144 task 4 deletes the lake, zone and asset that checkpoints 1 to 3 score. GSP685 task 6 deletes the `babynames` dataset that checkpoints 3, 4 and 5 score. GSP1143 is the console version of the same.
 - **A delete in the middle.** GSP328 task 3 begins by deleting the Cloud Run service checkpoint 1 scores, so the seven tasks collapse into two blocks split exactly there.
 - **A cleanup that sweeps up later work.** GSP399 task 1 ends by deleting every classic firewall rule on the VPC, which would remove task 3's two rules if task 3 ran first. Here the fix is ordering rather than pausing: task 1, then 3.
+- **A task whose title misdescribes what it does.** GSP073 task 5 is headed *Delete a folder* and its steps delete the **whole bucket**: return to the buckets level, select the bucket, click Delete, type `DELETE`. That removes the object and the folders every one of its three checkpoints scored. Reading the task list is not enough here; the titles have to be checked against the steps under them.
 - **An undo presented as the next lesson.** GSP074 makes an object public in task 7, which checkpoint 3 scores, then task 8 removes that ACL and the paragraph after it deletes the object. Neither step is framed as cleanup; they read as further demonstration. So the tell below misses this one entirely, and only the checkpoint wording gives it away. GSP659 is the tightest case: task 4 deploys at `--concurrency 1`, checkpoint 3 scores that value, and the lab's **next command** restores it to 80. One command between earning a checkpoint and destroying it.
 
 The tell is usually a task named cleanup, remove, delete or disable, or a checkpoint phrased as an absence. GSP074 shows that is not sufficient. **The reliable read is to match every checkpoint against the tasks that come after it**, and ask of each whether it reverses the thing being scored. Two minutes on the task list buys back a whole lab attempt.
@@ -400,6 +401,24 @@ HELIPORT^ ^ ^ ^ ^ ^ ^
 That is `HELIPORT` plus seven escaped spaces. Unreadable, and impossible to guess from the field name.
 
 The general form of the problem is wider than Looker. Legacy and fixed width sources produce padded strings in BigQuery and in Sheets too, where `=COUNTIF(range,"HELIPORT")` fails for the same reason. **When an exact match returns zero rows against data you can see, suspect the value before the filter.** A `contains` or `starts with` comparison, or `TRIM`, will tell you in one attempt which it is.
+
+## Making an object public has three different right answers, decided by the bucket
+
+Three Cloud Storage labs ask for the same outcome and each one rejects the others' solution. What decides it is the bucket's **access control** setting, not the wording of the task.
+
+| Lab | Bucket's access control | What passes |
+|---|---|---|
+| GSP074 | fine grained, the create default | object ACL: `objects update --add-acl-grant=entity=allUsers,role=READER` |
+| GSP073 | **Uniform**, chosen at create time | bucket IAM: `buckets add-iam-policy-binding --member=allUsers --role=roles/storage.objectViewer` |
+| ARC111 | Uniform, pre set by the lab, but the task demands an object grant | **turn uniform off first**, then the object ACL |
+
+The mechanism is forced by the bucket. **Uniform bucket level access forbids per object ACLs outright**, so on GSP073 there is no object level option to find, and on ARC111 the only route to the object grant the task insists on is disabling uniform access and waiting for that to take effect.
+
+**The checkpoint name is not a clue.** GSP073's is called *Share a kitten.png object publicly* and the correct action is a binding on the bucket, which the object merely inherits. It verifies the effect. ARC111's task, by contrast, says *"Instead of a bucket, grant all users read permissions to the object"* twice, and there a bucket binding produces the identical public url and still scores zero, because that scorer reads the object's own acl.
+
+So the order to work in is: **read the bucket's access control setting first, then decide which form to use**, and only override that with an explicit instruction in the task text.
+
+One more setting sits above all of it. **Enforce public access prevention overrides IAM rather than negotiating with it**, so while it is on, a perfectly formed `allUsers` binding is refused. GSP073 has you uncheck it at create time and mentions it twice, which is the tell that it catches people.
 
 ## Bucket location is not changeable
 
