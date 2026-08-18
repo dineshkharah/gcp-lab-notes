@@ -118,6 +118,7 @@ Qwik starts and guided labs:
 - `labs/gsp089-cloud-monitoring-qwik-start.md`
 - `labs/gsp092-monitoring-and-logging-for-cloud-run-functions.md`
 - `labs/gsp096-pubsub-qwik-start.md`
+- `labs/gsp659-deploy-website-on-cloud-run.md`
 - `labs/gsp685-bq-for-google-bigquery.md`
 - `labs/gsp693-gcloud-cli-beginners-guide.md`
 - `labs/gsp694-gcloud-for-network-configuration.md`
