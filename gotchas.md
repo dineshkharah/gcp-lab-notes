@@ -501,6 +501,14 @@ Two behaviours from GSP541 that no earlier lab in these notes showed.
 
 Both are worth checking for early. Claim the first checkpoint as soon as its files are uploaded: if it goes green with nothing deployed, the rest of that lab's tasks can be batched.
 
+**Second instance, and in a notebook rather than a shell.** GSP524's final checkpoint is not satisfied by generating the report; the notebook's last cell is a pre written upload and the object has to land in the bucket:
+
+```
+!gcloud storage cp analysis/final_report.md gs://{PROJECT_ID}-bucket/analysis/final_report.md
+```
+
+So in a lab where the work happens somewhere other than Cloud Storage, **an upload cell or command near the end of a task is probably the thing being scored**, not the work above it. Easy to skip as boilerplate.
+
 ## Read the scorer message
 
 The score alone says a checkpoint failed. The message under it says why. One Bigtable checkpoint sat at ten out of twenty with the real reason only in the popup: it wanted a multi region bucket named after the project id, while the bucket had been created regional.
@@ -594,6 +602,16 @@ Every lab page prints **Manual Last Updated** at the bottom. Read it against the
 A rename does not have to reach the whole product. Knowledge Catalog, in GSP1143, is called that only in the console; the api is still `dataplex.googleapis.com`, the commands are still `gcloud dataplex`, and the permission in its error messages is still `dataplex.lakes.create`. So the console name and the command name disagree and neither is a typo. When a lab name and a command prefix do not match, check whether the product was renamed before assuming the lab is stale.
 
 A rename can also delete the lab's noun. ARC119 asks for a **tag template** with a template id and typed fields. There is no tag templates page in the current console at all; the thing that takes exactly those inputs now lives at **Knowledge Catalog > Metadata types > Aspect types**, and creating it there is what cleared the checkpoint. The `gcloud data-catalog tag-templates` command still exists, so the old vocabulary survives in the api while having vanished from the ui. **When a lab names a console page that is not there, look for the page whose input fields match** rather than concluding the lab is describing a product you no longer have.
+
+**But the manual date does not track the files a lab hands you.** GSP524 was abandoned at 30/100 because its notebook shipped `MODEL_ID = "gemini-2.0-flash-001"`, a model that 404s in the lab's own region. On a second attempt weeks later the notebook shipped `gemini-2.5-flash` and nothing failed. **Manual Last Updated read May 18 2026 on both runs.** The notebook had been replaced and the date had not moved.
+
+Two things follow. **A lab abandoned over a defect in a supplied artifact is worth re trying rather than working around**, because the artifact can be fixed without any visible version change; three minutes of checking beat a clever local patch. And where a lab ships code, **read the value out of the artifact rather than trusting either the date or your own notes**:
+
+```python
+print("MODEL_ID=[", MODEL_ID, "] LOCATION=[", LOCATION, "]")
+```
+
+The only hint anything had changed was the lab text's model wording drifting from "Gemini 3.5 Flash" to a generic "Gemini Flash" and back, which is far too weak a signal to rely on.
 
 The date is also worth reading across labs that share tasks. GSP1041 and GSP1042 have three identical tasks, and their manuals are two months apart, so the same step is described with different menu labels in each. And the lag cuts the other way too: GSP1042 still calls the product Data Studio, renamed Looker Studio in 2022, which means searching the lab text for the name in the console finds nothing.
 
