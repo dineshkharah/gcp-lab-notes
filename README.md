@@ -76,6 +76,7 @@ Challenge labs:
 - `labs/gsp517-genai-apps-gemini-streamlit-challenge.md`
 - `labs/gsp520-inspect-rich-documents-gemini-multimodal-rag-challenge.md`
 - `labs/gsp523-multimodal-vector-search-bigquery-challenge.md`
+- `labs/gsp524-analyze-reason-multimodal-data-challenge.md`
 - `labs/gsp525-enhance-gemini-model-capabilities-challenge.md`
 - `labs/gsp526-privileged-access-manager-challenge.md`
 - `labs/gsp527-gemini-code-assist-challenge.md`
