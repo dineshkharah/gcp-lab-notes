@@ -175,6 +175,36 @@ Keeping the original is the point, not politeness. It is the fallback to filling
 
 Generalises past notebooks. Any helper step that removes something the lab handed you before obtaining the thing meant to take its place is the same trade, and the same reordering fixes it.
 
+**Second instance, with the failure silenced.** The GSP206 helper does it to a Terraform config:
+
+```
+rm -rf main.tf
+wget -q https://raw.githubusercontent.com/.../main.tf
+```
+
+`wget -q` prints nothing on failure, so a moved path leaves the directory with **no configuration and no message about it**, and `terraform init` then fails on something that sounds unrelated. Where a download feeds a destructive step, drop the quiet flag; never both silence the fetch and delete the fallback.
+
+**Also weigh what the replacement is.** That helper clones a module from upstream HEAD and then overwrites `main.tf` with a copy pinned in a third party repo months earlier. Module variables move, so a stale config against a current module gives `Unsupported argument` errors that read as your own mistake. Where a lab asks for a **small edit to a file you cloned**, making that edit cannot drift; replacing the file wholesale reintroduces every version skew the clone just avoided.
+
+## A line number is a moving target, so edit against content
+
+Two labs now hand out edits addressed by line number, into files they do not control.
+
+GSP206 says *"on line 133, inside the `gce-lb-https` module, add the following lines"*, in a repo cloned from **upstream HEAD**. That number describes whatever the module looked like when the manual was written. ARC101's community script does the same thing to itself with `sed -i "16c\..."`, which silently rewrites a different statement the moment the file shifts by a line.
+
+Anchor on the surrounding syntax instead, and fail loudly when it is not found:
+
+```python
+for i, ln in enumerate(lines):
+    if re.match(r'\s*module\s+"gce-lb-https"\s*{', ln):
+        lines.insert(i + 1, "  new_argument = true")
+        break
+else:
+    raise SystemExit("FAILED: block not found")
+```
+
+**The `else` on the loop is the important half.** A no match that passes quietly produces a config that plans and applies cleanly while missing the thing the task asked for, which is far harder to spot than a syntax error. Same reason the region substitutions in that lab print their replacement count: `0 replaced` is a silent failure otherwise.
+
 ## An interactive prompt in a pasted block eats the next line
 
 The mirror image of the problem above. On ARC114 the community script contained `read -p "Enter your API Key: " API_KEY_INPUT`, and pasting the block meant `read` consumed the **next line of the script** as its answer. `API_KEY` became the literal string `# Get API Key`, the real key was then handed to bash as a command, and both curls sent a garbage key into files that were written anyway, containing a 403.
