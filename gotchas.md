@@ -76,6 +76,12 @@ for i in $(seq 1 10); do <the command> && echo OK && break; echo "iam not usable
 
 Same family as the service agent and 403 propagation notes: GSP1144 and ARC117 need this on `dataplex lakes create`, GENAI129 gets it for free because a ninety second build sits between the grant and its first use. **A permission error within a minute or two of granting the permission is a wait, not a bug.**
 
+**A lab prescribing the retry itself is the strongest confirmation this is real.** GSP1154 documents its own flaky step in the manual:
+
+> *"The deployment process may occasionally fail on the first attempt. This typically happens if the underlying permissions for the build service have not fully propagated ... Wait for approximately one minute ... click the Update app button."*
+
+So when a console action fails once on something permission shaped, retrying the **same** action is the first move rather than rebuilding from scratch, and that holds whether or not the lab happens to say so.
+
 **Retry first has a failure mode, and ARC100 paid for it.** Five deploys thirty seconds apart, each three minutes long, all returning the identical permission error, because the binding had never been applied at all: the grant command had failed on a malformed variable and the retry loop patiently retried against nothing. Roughly fifteen minutes for no information.
 
 So the retry is conditional on one cheap check first:
