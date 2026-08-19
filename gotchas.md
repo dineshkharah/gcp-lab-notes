@@ -186,6 +186,41 @@ wget -q https://raw.githubusercontent.com/.../main.tf
 
 **Also weigh what the replacement is.** That helper clones a module from upstream HEAD and then overwrites `main.tf` with a copy pinned in a third party repo months earlier. Module variables move, so a stale config against a current module gives `Unsupported argument` errors that read as your own mistake. Where a lab asks for a **small edit to a file you cloned**, making that edit cannot drift; replacing the file wholesale reintroduces every version skew the clone just avoided.
 
+## A command on PATH is not the same as the tool being installed
+
+Cloud Shell ships a **stub** named `terraform` whose entire job is to print installation instructions. It exits 0 and writes to stdout, so it passes every test you would normally use:
+
+```
+command -v terraform >/dev/null || install_it   # finds the stub, skips the install
+```
+
+GSP191 lost most of an attempt to that one line. Every `init`, `plan`, `apply` and `output` printed the stub's help text and reported success.
+
+**And installing the real thing does not necessarily fix the shell you are in.** After `apt install terraform` reported `Setting up terraform (1.15.9-1)`, a bare `terraform --version` still printed the stub. Either the stub sits earlier in `PATH`, or bash had cached the stub's location from the earlier lookup, which it does for every command it resolves. Both are worth knowing because the remedies differ:
+
+```
+type -a terraform     # every match on PATH, in order
+hash -r               # clear bash's cached command locations
+/usr/bin/terraform --version
+```
+
+Two habits follow.
+
+**Test for the tool by its output, not its presence:**
+
+```
+terraform --version | grep -q '^Terraform v' && echo OK || echo "NOT INSTALLED"
+```
+
+**And once a shadowing stub is known about, bind the absolute path once** and use it, so the name cannot be resolved wrongly again:
+
+```
+export TF=/usr/bin/terraform
+$TF init -input=false
+```
+
+**The reason this is worth its own section is how it fails.** A stub that succeeds and prints to stdout poisons everything downstream: `terraform output -json` returned help text, a `json.load` on it raised a `JSONDecodeError`, the extracted variable came out empty, and `curl` then complained `option -: is unknown` because the words `wget -O -` out of the stub message had ended up on its command line. Four errors in three different tools, none of them saying Terraform was missing.
+
 ## A line number is a moving target, so edit against content
 
 Two labs now hand out edits addressed by line number, into files they do not control.
