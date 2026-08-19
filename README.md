@@ -125,6 +125,7 @@ Qwik starts and guided labs:
 - `labs/gsp092-monitoring-and-logging-for-cloud-run-functions.md`
 - `labs/gsp095-pubsub-qwik-start-command-line.md`
 - `labs/gsp096-pubsub-qwik-start.md`
+- `labs/gsp191-modular-load-balancing-terraform-regional.md`
 - `labs/gsp206-https-content-based-load-balancer-terraform.md`
 - `labs/gsp421-apis-explorer-cloud-storage.md`
 - `labs/gsp659-deploy-website-on-cloud-run.md`
